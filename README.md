@@ -1,6 +1,11 @@
 # OpenFOAM® TUTORIAL
 
+![license](https://img.shields.io/badge/license-GPL-orange)![release](https://img.shields.io/badge/release-ver1.0-brightgreen)
+
+
+
 #### 介绍
+
 Introduces basic C++ concepts to beginner users of the OpenFOAM open-source CFD libraries.
 
 本教程是基于 **UnnamedMoose/BasicOpenFOAMProgrammingTutorials**  的中文翻译，并做了一些改动。
@@ -40,5 +45,22 @@ Checking: OFtutorial02_commandLineArgumentsAndOptions/
 
 #### Tutorial 0 - Hello world
 
-展示了一个简单的OpenFOAM代码是如何运行的，在屏幕上打印一些简单但重要的信息:smile:。
+展示了一个简单的OpenFOAM代码是如何运行的，在屏幕上打印一些简单但重要的信息:smile:
 
+----
+
+#### Tutorial 1 - Input and output
+
+展示字典中的内容并将输出保存在文件中
+
+---
+
+#### Tutorial 3 - Understanding the mesh
+
+讨论OpenFOAM是如何描述网格的并且使用代码进行网格的交互
+
+---
+
+#### Tutorial 4 - Basic field operations
+
+**TODO**: 加入教程描述
