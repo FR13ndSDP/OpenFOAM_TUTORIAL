@@ -29,31 +29,25 @@ int main(int argc, char *argv[])
 {
     #include "setRootCase.H"
 
-	// These two create the time system (instance called runTime) and fvMesh (instance called mesh).
+    // 分别创建time(实例称为runTime)和fvMesh(实例称为mesh)类
     #include "createTime.H"
     #include "createMesh.H"
 
-	// runTime and mesh are instances(实例) of objects (or classes).
-	// If you are not familiar with what a class or object is, it is HIGHLY RECOMMENDED you visit this
-	// website and only come back once you've read everything about classes, inheritance(继承)and polymorphism(多态):
-	// http://www.cplusplus.com/doc/tutorial/classes/
-	// Note how the next lines call functions .timeName(), .C() and .Cf() implemented in the objects.
-	// It is also important to realise that mesh.C() and .Cf() return vector fields denoting(表示) centres of each
-    // cell and internal face.
-	// Calling the mesh.C().size() method therefore yields the total size of the mesh.
+	// 下面几行中的 .timeName(), .C() and .Cf() 都是对象的[方法].
+	// mesh.C() 和 .Cf() 返回描述cell和内部面中心的向量场
+	// 使用mesh.C().size()方法获取网格大小 
 	Info << "Hello there, the most recent time folder found is " << runTime.timeName() << nl
 		 << "The mesh has " << mesh.C().size() << " cells and " << mesh.Cf().size()
          << " internal faces in it. Wubalubadubdub!" << nl << endl;
 
-    // It's possible to iterate over every cell in a standard C++ for loop
+    // 通过标准的c++循环来遍历cell是可行的（尽管并不推荐）
     for (label cellI = 0; cellI < mesh.C().size(); cellI++)
-        if (cellI%20 == 0) // only show every twentieth cell not to spam the screen too much
+        if (cellI%20 == 0) // 只展示每20个cell的信息以防止塞满屏幕
             Info << "Cell " << cellI << " with centre at " << mesh.C()[cellI] << endl;
-    Info << endl; // spacer
+    Info << endl;
 
-    // Each cell is constructed of faces - these may either be internal or constitute a
-    // boundary, or a patch in OpenFOAM terms; internal faces have an owner cell
-    // and a neighbour.
+    // 每个cell都是由面(faces)组成的，这些面要么是内部面，要么组成边界(boundry)，或者用
+    // OF的叫法，称为patch。内部面都具有主cell(owner)和临cell(neighbour)
     for (label faceI = 0; faceI < mesh.owner().size(); faceI++)
         if (faceI%40 == 0)
             Info << "Internal face " << faceI << " with centre at " << mesh.Cf()[faceI]
@@ -61,22 +55,19 @@ int main(int argc, char *argv[])
                  << " and neighbour " << mesh.neighbour()[faceI] << endl;
     Info << endl;
 
-    // Boundary conditions may be accessed through the boundaryMesh object.
-    // In reality, each boundary face is also included in the constant/polyMesh/faces
-    // description. But, in that file, the internal faces are defined first.
-    // In addition, the constant/polyMesh/boundary file defines the starting faceI
-    // indices from which boundary face definitions start.
-    // OpenFOAM also provides a macro definition for for loops over all entries
-    // in a field or a list, which saves up on the amount of typing.
-	//OpenFOAM的宏定义forAll
+    // 现在使用boundaryMesh对象来获取边界条件
+    // 实际上，所有的边界面也都包含在constant/polyMesh/faces 中，
+    // 但是在那个文件中，所有的内部面首先被定义
+    // 另外，constant/polyMesh/boundary 文件定义了边界定义的起始面(faceI)的索引
+	// OpenFOAM提供宏定义forAll执行在场或列表中的遍历，为你节省时间
     forAll(mesh.boundaryMesh(), patchI)
         Info << "Patch " << patchI << ": " << mesh.boundary()[patchI].name() << " with "
              << mesh.boundary()[patchI].Cf().size() << " faces. Starts at total face "
              << mesh.boundary()[patchI].start() << endl;
     Info << endl;
 
-    // Faces adjacent to boundaries may be accessed as follows.
-    // Also, a useful thing to know about a face is its normal vector and face area.
+    // 使用以下的方式获取边界的临接面
+    // 此外，一个面的法向量和它的面积也是很有用的
     label patchFaceI(0);
     forAll(mesh.boundaryMesh(), patchI)
         Info << "Patch " << patchI << " has its face " << patchFaceI << " adjacent to cell "
@@ -86,13 +77,10 @@ int main(int argc, char *argv[])
              << endl;
     Info << endl;
 
-    // For internal faces, method .Sf() can be called directly on the mesh instance.
-    // Moreover, there is a shorthand method .magSf() which returns the surface area
-    // as a scalar.
-    // For internal faces, the normal vector points from the owner to the neighbour
-    // and the owner has a smaller cellI index than the neighbour. For boundary faces,
-    // the normals always point outside of the domain (they have "imaginary" neighbours
-    // which do not exist).
+    // 对于内部面，方法.Sf()可以用来直接被mesh对象调用
+    // 此外还有一个捷径方法.magSf()来返回一个标量，代表表面面积
+    // 内部面的法向量由owner指向neighbour，并且owner的下标比neighbour小
+    // 对边界面来说，法向量总是指向计算域之外，他有一个虚拟的neighbour
 
     // It is possible to look at the points making up each face in more detail.
     // First, we define a few shorthands by getting references to the respective
