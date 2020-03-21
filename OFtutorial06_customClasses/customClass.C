@@ -10,12 +10,12 @@ customClass::~customClass()
 
 label customClass::basicFunction() const
 {
-    Info << "Calling customClass::basicFunction()" << endl;
+    Info << "调用 customClass::basicFunction()" << endl;
     return myInt_*2;
 }
 
 void customClass::meshOpFunction(fvMesh& mesh)
 {
-    Info << "Custom class got a mesh with " << mesh.C().size() << " cells" << endl;
+    Info << "自定义类得到的网格有 " << mesh.C().size() << " 个cell" << endl;
     myInt_ = mesh.C().size();
 }

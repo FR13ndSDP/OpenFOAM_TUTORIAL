@@ -1,6 +1,7 @@
 #include "fvCFD.H"
 
 // use a standard C++ stringstream object
+// 一个c++字符输入输出标准库
 #include <sstream>
 
 // This class is derived from the IOdictionary, declared in

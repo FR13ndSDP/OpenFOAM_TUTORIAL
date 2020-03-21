@@ -101,7 +101,7 @@ Foam::functionObjects::pipeCalc::pipeCalc
     // NOTE: Read the face zone to integrate over. Get its name from the dict, find
     // it in the mesh, and get a reference to the list of its faces.
     faceZoneName_(dict.lookup("faceZoneName")),
-    faceZoneLabel_( mesh_.faceZones().findZoneID(faceZoneName_) ),
+    faceZoneLabel_(mesh_.faceZones().findZoneID(faceZoneName_) ),
     faces_( mesh_.faceZones()[faceZoneLabel_] )
 {
     // NOTE: calls the separate .read() method to import the controls from the dict.
@@ -181,7 +181,6 @@ bool Foam::functionObjects::pipeCalc::write()
         // and the boundary values could be used instead. This is not done here
         // for simplicity.
         scalar flowRate(0.);
-
         forAll(faces_, faceI)
             // Flow rate = dot product of velocity and surface area vector; in Latex terms,
             // Q = \mathbf{U} \cdot \mathbf{\hat{n}} A

@@ -213,7 +213,7 @@ void Foam::prescribedPipeInletFvPatchVectorField::write(Ostream& os) const
     os.writeKeyword("centrepoint") << centrepoint_ << token::END_STATEMENT << nl;
     os.writeKeyword("R") << R_ << token::END_STATEMENT << nl;
     os.writeKeyword("lambda") << lambda_ << token::END_STATEMENT << nl;
-    writeEntry(os, "value", *this);
+    writeEntry( "value", os);
 }
 
 

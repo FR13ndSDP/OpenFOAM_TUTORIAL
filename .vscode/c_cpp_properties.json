@@ -1,0 +1,21 @@
+{
+    "configurations": [
+        {
+            "name": "Linux",
+            "includePath": [
+                "${workspaceFolder}/**",
+                "/opt/OpenFOAM/OpenFOAM-v1912/src/finiteVolume/lnInclude",
+                "/opt/OpenFOAM/OpenFOAM-v1912/src/meshTools/lnInclude",
+                ".",
+                "/opt/OpenFOAM/OpenFOAM-v1912/src/OpenFOAM/lnInclude",
+                "/opt/OpenFOAM/OpenFOAM-v1912/src/OSspecific/POSIX/lnInclude"
+            ],
+            "defines": [],
+            "compilerPath": "/usr/bin/g++",
+            "cStandard": "c11",
+            "cppStandard": "c++11",
+            "intelliSenseMode": "gcc-x64"
+        }
+    ],
+    "version": 4
+}

@@ -12,6 +12,7 @@ public:
 
     // Access operators - allow the internal value to be set or retrieved.
     // Defined as inline to make the code run faster by avoiding expensive linking.
+    // 关键字inline指定函数为内联函数，它避免了链接带来的开销从而使程序更快
     // .set() method defined as const as it is not allowed to modify any of the class fields.
     inline label get() const {return myInt_;};
     inline void set(label newInt) {myInt_=newInt;};
