@@ -68,9 +68,9 @@ void Foam::functionObjects::pipeCalc::writeFileHeader(const label i)
     {
         case MAIN_FILE:
         {
-            writeHeader(file(i), "Flow rate through face zone");
-            writeHeaderValue(file(i), "Face zone name", faceZoneName_);
-            writeCommented(file(i), "Time [s] | Flow rate [m3s-1]");
+            writeHeader(files(i), "Flow rate through face zone");
+            writeHeaderValue(files(i), "Face zone name", faceZoneName_);
+            writeCommented(files(i), "Time [s] | Flow rate [m3s-1]");
             file() << endl;
             break; // exit the case structure
         }
@@ -202,7 +202,7 @@ bool Foam::functionObjects::pipeCalc::write()
             logFiles::write();
 
             // Add the entry for this time step that has just been computed.
-            file(MAIN_FILE) << obr_.time().value() << tab << flowRate << endl;
+            files(MAIN_FILE) << obr_.time().value() << tab << flowRate << endl;
         }
     }
     return true;

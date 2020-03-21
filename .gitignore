@@ -84,3 +84,6 @@ doc/Doxygen/DTAGS
 # Ignore the test directory and unpublished files
 /tutorialsTest
 /TODO
+
+#Ignore all my VScode profiles
+*.json
