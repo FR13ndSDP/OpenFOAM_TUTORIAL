@@ -3,18 +3,36 @@
         {
             "name": "Linux",
             "includePath": [
-                "${workspaceFolder}/**",
                 "/opt/OpenFOAM/OpenFOAM-v1912/src/finiteVolume/lnInclude",
                 "/opt/OpenFOAM/OpenFOAM-v1912/src/meshTools/lnInclude",
-                ".",
+                "${workspaceFolder}/**",
+                "lnInclude",
                 "/opt/OpenFOAM/OpenFOAM-v1912/src/OpenFOAM/lnInclude",
                 "/opt/OpenFOAM/OpenFOAM-v1912/src/OSspecific/POSIX/lnInclude"
             ],
             "defines": [],
-            "compilerPath": "/usr/bin/g++",
+            "compilerPath": "/opt/OpenFOAM/ThirdParty-v1912/platforms/linux64/gcc-6.3.0/bin/g++",
             "cStandard": "c11",
             "cppStandard": "c++11",
-            "intelliSenseMode": "gcc-x64"
+            "intelliSenseMode": "gcc-x64",
+            "compilerArgs": [
+                "-std=c++11 ",
+                "-m64 ",
+                "-DOPENFOAM=1912 ",
+                "-DWM_DP ",
+                "-DWM_LABEL_SIZE=32",
+                "-Wall ",
+                "-Wextra ",
+                "-Wold-style-cast ",
+                "-Wnon-virtual-dtor ",
+                "-Wno-unused-parameter ",
+                "-Wno-invalid-offsetof ",
+                "-Wno-attributes ",
+                "-Wno-unknown-pragmas ",
+                "-O3  ",
+                "-DNoRepository ",
+                "-ftemplate-depth-100"
+            ]
         }
     ],
     "version": 4

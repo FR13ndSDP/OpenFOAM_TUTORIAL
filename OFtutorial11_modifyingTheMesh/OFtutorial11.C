@@ -232,6 +232,7 @@ int main(int argc, char *argv[])
             runTime.constant(),
             runTime
         ),
+        //BUG：编译错误："no suitable conversion function from \"Foam::pointField\" to \"int (*)(void *__arg)\" exists"
         clone(points),
         cells,
         patchFaces,
