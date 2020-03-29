@@ -18,16 +18,16 @@ volScalarField nu
 if (!nu.headerOk())
 {
     IOdictionary transportProperties //读取文件设置
+    (
+        IOobject
         (
-            IOobject
-            (
-                "transportProperties",           // 文件名
-                runTime.constant(),              // 文件路径"./constant"
-                mesh,                            // 注册对象
-                IOobject::MUST_READ_IF_MODIFIED, // 如果运行时值改变了，就进行读取
-                IOobject::NO_WRITE               // 只读
-            )
-        );
+            "transportProperties",           // 文件名
+            runTime.constant(),              // 文件路径"./constant"
+            mesh,                            // 注册对象
+            IOobject::MUST_READ_IF_MODIFIED, // 如果运行时值改变了，就进行读取
+            IOobject::NO_WRITE               // 只读
+        )
+    );
     nu = dimensionedScalar("nu", dimViscosity, transportProperties);
 }
 

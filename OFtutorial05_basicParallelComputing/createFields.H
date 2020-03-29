@@ -1,5 +1,4 @@
-Info << "Reading transportProperties\n" << endl;
-
+Info << "读粘度\n" << endl;
 IOdictionary transportProperties
 (
     IOobject
@@ -11,15 +10,9 @@ IOdictionary transportProperties
         IOobject::NO_WRITE
     )
 );
+dimensionedScalar nu=dimensionedScalar("nu",dimViscosity,transportProperties);
 
-dimensionedScalar nu
-(
-    "nu",
-    dimViscosity,
-    transportProperties.lookup("nu")
-);
-
-Info<< "Reading field p\n" << endl;
+Info<< "读压力场\n" << endl;
 volScalarField p
 (
     IOobject
@@ -33,7 +26,7 @@ volScalarField p
     mesh
 );
 
-Info<< "Reading field U\n" << endl;
+Info<< "读速度场\n" << endl;
 volVectorField U
 (
     IOobject
