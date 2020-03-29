@@ -15,7 +15,7 @@ FoamFile
 }
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-someWord myWord;
+someWord hello_word;
 
 someScalar 0.01;
 

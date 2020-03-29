@@ -36,21 +36,21 @@ int main(int argc, char *argv[])
 	// 下面几行中的 .timeName(), .C() and .Cf() 都是对象的[方法].
 	// mesh.C() 和 .Cf() 返回描述cell和内部面中心的向量场
 	// 使用mesh.C().size()方法获取网格大小 
-	Info << "Hello there, the most recent time folder found is " << runTime.timeName() << nl
-		 << "The mesh has " << mesh.C().size() << " cells and " << mesh.Cf().size()
-         << " internal faces in it. Wubalubadubdub!" << nl << endl;
+	Info << "你好，最新的时间文件夹是 " << runTime.timeName() << nl
+		 << "网格有 " << mesh.C().size() << " 个cell和 " << mesh.Cf().size()
+         << " 个内部面. Wubalubadubdub!" << nl << endl;
 
     // 通过标准的c++循环来遍历cell是可行的（尽管并不推荐）
     for (label cellI = 0; cellI < mesh.C().size(); cellI++)
         if (cellI%20 == 0) // 只展示每20个cell的信息以防止塞满屏幕
-            Info << "Cell " << cellI << " with centre at " << mesh.C()[cellI] << endl;
+            Info << "Cell " << cellI << " 中心在 " << mesh.C()[cellI] << endl;
     Info << endl;
 
     // 每个cell都是由面(faces)组成的，这些面要么是内部面，要么组成边界(boundry)，或者用
     // OF的叫法，称为patch。内部面都具有主cell(owner)和临cell(neighbour)
     for (label faceI = 0; faceI < mesh.owner().size(); faceI++)
         if (faceI%40 == 0)
-            Info << "Internal face " << faceI << " with centre at " << mesh.Cf()[faceI]
+            Info << "内部面 " << faceI << " 中心在 " << mesh.Cf()[faceI]
                  << " with owner cell " << mesh.owner()[faceI]
                  << " and neighbour " << mesh.neighbour()[faceI] << endl;
     Info << endl;
@@ -72,8 +72,8 @@ int main(int argc, char *argv[])
     forAll(mesh.boundaryMesh(), patchI)
         Info << "Patch " << patchI << " has its face " << patchFaceI << " adjacent to cell "
              << mesh.boundary()[patchI].patch().faceCells()[patchFaceI]
-             << ". It has normal vector " << mesh.boundary()[patchI].Sf()[patchFaceI]
-             << " and surface area " << mag(mesh.boundary()[patchI].Sf()[patchFaceI])
+             << ". It has normal vector " << mesh.boundary()[patchI].Sf()[patchFaceI] // 法向量，模为面积
+             << " and surface area " << mag(mesh.boundary()[patchI].Sf()[patchFaceI]) // mag计算模
              << endl;
     Info << endl;
 
@@ -82,36 +82,33 @@ int main(int argc, char *argv[])
     // 内部面的法向量由owner指向neighbour，并且owner的下标比neighbour小
     // 对边界面来说，法向量总是指向计算域之外，他有一个虚拟的neighbour
 
-    // It is possible to look at the points making up each face in more detail.
-    // First, we define a few shorthands by getting references to the respective
-    // objects in the mesh. These are defined as constants since we do not aim to
-    // alter the mesh in any way.
-    // NOTE: these lists refer to the physical definition of the mesh and thus
-    // include boundary faces. Use can be made of the mesh.boundary()[patchI].Cf().size()
-    // and mesh.boundary()[patchI].start() methods to check whether the face is internal
-    // or lies on a boundary.
+    // ==
+    // 点是如何组成面的
+    // 先定义一些引用，他们是consr类型，因为我们没打算修改
+    // 这些list包括边界条件的一些信息，可以使用下面的代码进行检测是否为边界
     const faceList& fcs = mesh.faces();
     const List<point>& pts = mesh.points();
     const List<point>& cents = mesh.faceCentres();
 
-    forAll(fcs,faceI)
-        if (faceI%80==0)
+    forAll(fcs,faceI) // for all faceI in fcs
+        if (faceI%80==0) // 只展示下标是80的整数倍的face
         {
-            if (faceI<mesh.Cf().size())
-                Info << "Internal face ";
+            if (faceI<mesh.Cf().size()) // 判断为internal mesh
+                Info << "内部面 ";
             else
             {
-                forAll(mesh.boundary(),patchI)
+                forAll(mesh.boundary(),patchI) // for all patches in boundary
+                    // 逐一检测faceI是否在patchI中，
                     if ((mesh.boundary()[patchI].start()<= faceI) &&
-                        (faceI < mesh.boundary()[patchI].start()+mesh.boundary()[patchI].Cf().size()))
+                        (faceI < mesh.boundary()[patchI].start()+mesh.boundary()[patchI].Cf().size())) // 用来检测是否为边界
                     {
-                        Info << "Face on patch " << patchI << ", faceI ";
-                        break; // exit the forAll loop prematurely
+                        Info << "非内部面在patch " << patchI << ", faceI ";
+                        break; // 退出forall
                     }
             }
 
-            Info << faceI << " with centre at " << cents[faceI]
-                 << " has " << fcs[faceI].size() << " vertices:";
+            Info << faceI << " 中心坐标在 " << cents[faceI]
+                 << " 有 " << fcs[faceI].size() << " 顶点:"; 
             forAll(fcs[faceI],vertexI)
                 // Note how fcs[faceI] holds the indices of points whose coordinates
                 // are stored in the pts list.
@@ -120,27 +117,21 @@ int main(int argc, char *argv[])
         }
     Info << endl;
 
-    // In the original cavity tutorial, on which the test case is based,
-    // the frontAndBack boundary is defined as and "empty" type. This is a special
-    // BC case which may cause unexpected behaviour as its .Cf() field has size of 0.
-    // Type of a patch may be checked to avoid running into this problem if there
-    // is a substantial risk that an empty patch type will appear
+    // 原始的cavity算例中，前后面定义为empty，这是一个特殊的边界条件。他的.CF()场大小为零
     label patchID(0);
-    const polyPatch& pp = mesh.boundaryMesh()[patchID];
-    if (isA<emptyPolyPatch>(pp))
+    const polyPatch& pp = mesh.boundaryMesh()[patchID]; // pp是boundary 0的引用
+    if (isA<emptyPolyPatch>(pp)) // pp不是emmpty（是moving wall），因此后面不会打印
     {
         // patch patchID is of type "empty".
         Info << "You will not see this." << endl;
     }
 
-    // Patches may also be retrieved(取回)from the mesh using their name. This could be
-    // useful if the user were to refer to a particular patch from a dictionary
-    // (like when you do when calculating forces on a particular patch).
-    word patchName("movingWall");
+    // 通过patch的名字获取其信息
+    word patchName("movingWall");// 要找的patch: movingWall
     patchID = mesh.boundaryMesh().findPatchID(patchName);
-    Info << "Retrieved patch " << patchName << " at index " << patchID << " using its name only." << nl << endl;
+    Info << "取回patch " << patchName << " 在下标 " << patchID << " ，只是使用它的名字" << nl << endl;
 
-    Info<< "End\n" << endl;
+    Info<< "结束\n" << endl;
 
     return 0;
 }

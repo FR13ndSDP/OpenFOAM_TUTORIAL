@@ -27,6 +27,8 @@ License
 
 int main(int argc, char *argv[])
 {
+
+    argList::addNote("怎么进行并行运算");
     #include "setRootCase.H"
     #include "createTime.H"
     #include "createMesh.H"

@@ -25,6 +25,7 @@ License
 
 #include "fvCFD.H"
 
+// argc为参数个数 argv为传入参数内容
 int main(int argc, char* argv[])
 {
     // ===
@@ -69,7 +70,9 @@ int main(int argc, char* argv[])
     // create argument list
     // This is normally defined inside setRootCase.H
     // #include "setRootCase.H"
+    // args是装载参数的容器
     Foam::argList args(argc, argv);
+    // 在root路径下和不存在算例文件，如果是就抛出异常
     if (!args.checkRootCase())
     {
         Foam::FatalError.exit();

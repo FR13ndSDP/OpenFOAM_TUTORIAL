@@ -1,35 +1,7 @@
-/*---------------------------------------------------------------------------*\
-  =========                 |
-  \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
-   \\    /   O peration     |
-    \\  /    A nd           | Copyright (C) 2011-2015 OpenFOAM Foundation
-     \\/     M anipulation  |
--------------------------------------------------------------------------------
-License
-    This file is part of OpenFOAM.
-
-    OpenFOAM is free software: you can redistribute it and/or modify it
-    under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    OpenFOAM is distributed in the hope that it will be useful, but WITHOUT
-    ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-    FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
-    for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with OpenFOAM.  If not, see <http://www.gnu.org/licenses/>.
-
-\*---------------------------------------------------------------------------*/
-
 #include "fvCFD.H"
 
-// This is a function declaration; this method will calculate some scalar value
-// given the current time, location in space x, and a reference point x0. The
-// function also accepts a scaling factor, scale.
-// The actual implementation, or definition, is below.
-//计算p,参数为参考点x0,位置x,时间t,尺度因子。
+// 函数声明：计算给定时间t，给定位置x,给定参考点和尺度因子的压力值
+// 计算p,参数为参考点x0,位置x,时间t,尺度因子。
 scalar calculatePressure(scalar t, vector x, vector x0, scalar scale);
 
 int main(int argc, char *argv[])
@@ -38,72 +10,9 @@ int main(int argc, char *argv[])
     #include "createTime.H"
     #include "createMesh.H"
 
-	// This reads a dictionary file.
-	Info << "Reading transportProperties\n" << endl;
-
-	IOdictionary transportProperties//读取文件设置
-	(
-		IOobject
-		(
-		    "transportProperties", // name of the dictionary
-		    runTime.constant(), // location in the case - this one is in constant 指定所要读取的位置
-		    mesh, // needs the mesh object reference to do some voodoo - unimportant now
-		    IOobject::MUST_READ_IF_MODIFIED, // the file will be re-read if it gets modified during time stepping
-		    IOobject::NO_WRITE // read-only
-		)
-	);
-	//开始读取
-	// Create a scalar constant for kinematic viscosity by reading the value from the dictionary.
-	dimensionedScalar nu//FIXME:这里有warnning
-	(
-		"nu", // name of the variable
-		dimViscosity, // dimensions 定义为粘度量纲
-		//内部定义的方式：
-		// TIP: to check how this is defined, run:
-		// grep -r dimViscosity $FOAM_SRC/OpenFOAM/
-		// This returns:
-		/*/opt/openfoam30/src/OpenFOAM/dimensionSet/dimensionSets.C:const dimensionSet dimViscosity(dimArea/dimTime);
-		/opt/openfoam30/src/OpenFOAM/dimensionSet/dimensionSets.C:const dimensionSet dimDynamicViscosity(dimDensity*dimViscosity);
-		/opt/openfoam30/src/OpenFOAM/dimensionSet/dimensionSets.H:extern const dimensionSet dimViscosity;*/
-		// So, it becomes apparent we should check dimensionSets.C, which contain:
-		/*const dimensionSet dimLength(0, 1, 0, 0, 0, 0, 0);
-		const dimensionSet dimTime(0, 0, 1, 0, 0, 0, 0);
-		const dimensionSet dimArea(sqr(dimLength));
-		const dimensionSet dimViscosity(dimArea/dimTime);*/
-		// This is what gets used here. But, an alternative would be to type in the units directly:
-		// dimensionSet(0,2,-1,0,0,0,0),
-		transportProperties.lookup("nu") // this takes the value from the dictionary and returns it, passing it to the object constructor as an argument 读取到nu=nu [0,2,-1,0,0,0,0] 0.01
-	);
+	// 读入场的所有参数，包括压力、速度、粘度
+	#include "createFields.H"
 	
-	// These read the fields p and U from the time folders, as specified in system/controlDict (i.e. latestTime, startTime, etc.)
-	Info<< "Reading field p\n" << endl;
-	volScalarField p // 注意p为标量场
-	(
-		IOobject
-		(
-		    "p", // 场的名字
-		    runTime.timeName(), // name of the current time, i.e. the time folder to read from
-		    mesh,
-		    IOobject::MUST_READ, // always gets imported, will throw an error if the field is missing
-		    IOobject::AUTO_WRITE // will get saved automatically when the controlDict parameters will request it
-		),
-		mesh // 初始化场为mesh的大小并将场置为0
-	);
-
-	Info<< "Reading field U\n" << endl;
-	volVectorField U // 注意U为向量场
-	(
-		IOobject
-		(
-		    "U",
-		    runTime.timeName(),
-		    mesh,
-		    IOobject::MUST_READ,
-		    IOobject::AUTO_WRITE
-		),
-		mesh
-	);
-
 	// 定义一个不变的参考点
 	const vector originVector(0.01,0.02,0.005);
 

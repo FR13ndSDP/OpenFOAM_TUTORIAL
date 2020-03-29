@@ -1,32 +1,8 @@
-/*---------------------------------------------------------------------------*\
-  =========                 |
-  \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
-   \\    /   O peration     |
-    \\  /    A nd           | Copyright (C) 2011-2015 OpenFOAM Foundation
-     \\/     M anipulation  |
--------------------------------------------------------------------------------
-License
-    This file is part of OpenFOAM.
-
-    OpenFOAM is free software: you can redistribute it and/or modify it
-    under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    OpenFOAM is distributed in the hope that it will be useful, but WITHOUT
-    ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-    FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
-    for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with OpenFOAM.  If not, see <http://www.gnu.org/licenses/>.
-
-\*---------------------------------------------------------------------------*/
-
-#include "fvCFD.H"
+#include "fvCFD.H" // 基本是必备头文件
 
 int main(int argc, char *argv[])
 {
+    argList::addNote("这是一份说明");
     // 算例初始化
     #include "setRootCase.H"
 
@@ -37,14 +13,15 @@ int main(int argc, char *argv[])
     // ---
     // 创建自定义字典
     dictionary customDict;
-    const word dictName("customProperties");
+    const word dictName("customProperties"); // 这里理解为一个赋值操作const word dictName="..."
 
     // Create and input-output object - this holds the path to the dict and its name
     // 创建输入输出对象，其中包含了字典的名称以及路径
+    const word Path="./constant/"; // 这里应该是算例的相对路径
     IOobject dictIO
     (
         dictName, // 文件名，即""customProperties"
-        mesh.time().constant(), // 文件路径
+        Path, //XXX:这里相当于 mesh.time().consant();
         mesh, // objectRegistry为mesh，这指定了对象所属的类
         IOobject::MUST_READ // 指定文件为必读
     );
@@ -90,7 +67,7 @@ int main(int argc, char *argv[])
 
     // ---
     // 创建一个字典并写入
-    // 指定输出字典的路径
+    // 指定输出字典的路径 相当于./postProcessing;
     fileName outputDir = mesh.time().path()/"postProcessing";
     // 创建此文件夹
     mkDir(outputDir);
@@ -98,9 +75,10 @@ int main(int argc, char *argv[])
     //指向输出字典的文件指针
 	autoPtr<OFstream> outputFilePtr;
     // 打开新创建的文件夹
+    // reset 删除所指向对象，指向新对象
     outputFilePtr.reset(new OFstream(outputDir/"customOutputFile.dat"));
 
-    // 写入一些东西
+    // 向指向的对象中写入一些东西
     outputFilePtr() << "SDPTOP" << endl;
     outputFilePtr() << "0 1 2 3 4 5" << endl;
 
