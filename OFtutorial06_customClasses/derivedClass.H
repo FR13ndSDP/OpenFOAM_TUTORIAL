@@ -4,15 +4,11 @@
 // 一个c++字符输入输出标准库
 #include <sstream>
 
-// This class is derived from the IOdictionary, declared in
-// $FOAM_SRC/OpenFOAM/db/IOobjects/IOdictionary .
-// We derive all the methods by setting maximum access level as public, thus allowing
-// all the inherited methods to be accessed in the same way as they were for
-// the base class.
+// 派生自IOdictionary
+// public继承方式，这样拥有最高访问权限
 class myDict : public IOdictionary
 {
 public:
-    // Main constructor which accepts an IOobject (a file)
     myDict(const IOobject& ioObj);
     ~myDict();
 

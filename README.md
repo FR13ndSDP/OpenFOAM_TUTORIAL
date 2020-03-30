@@ -8,7 +8,7 @@
 
 Introduces basic C++ concepts to beginner users of the OpenFOAM open-source CFD libraries.
 
-本教程是基于 **UnnamedMoose/BasicOpenFOAMProgrammingTutorials**  的中文翻译，并做了一些改动。
+Forked from **UnnamedMoose/BasicOpenFOAMProgrammingTutorials** 
 
 #### 使用方法
 
@@ -63,37 +63,15 @@ Checking: OFtutorial02_commandLineArgumentsAndOptions/
 
 #### Tutorial 4 - Basic field operations
 
-**TODO**: 加入教程描述
-
----------
+基本场操作，包括速度、压力场的建立和求解
 
 #### Tutorial 5 - Basic parallel computing
 
-Gives a crash-course introduction to parallel computing with OpenFOAM and
-
-OpenMPI based on the example "solver" developed in Tutorial 4. The way
-
-OpenFOAM handles parallel domain decomposition is described, basic operators
-
-used for communication between parallel nodes are shown, and the basic solver
-
-is upgraded to work in parallel.
-
-----
+关于并行计算的机理与如何进行并行信息的交互
 
 #### Tutorial6 - Custom Classes
 
-Shows how a new class may be added to expand OpenFOAM functionality, as well
-
-as gives an example implementation of a class derived from and OpenFOAM
-
-object. This is done by extending from the IOdictionary, with the aim of
-
-adding a custom method which lists the contents of the dict file, while keeping
-
-all of the baseline functionality.
-
-----
+自定义类、派生类的声明和定义，其中定义了一个继承自IOdictionary的类，用于读取myTransportProperties
 
 #### Tutorial 7 - Custom libraries
 

@@ -15,21 +15,7 @@
             "cppStandard": "c++11",
             "intelliSenseMode": "gcc-x64",
             "compilerArgs": [
-                "g++",
-                "-std=c++11",
-                "-m64",
                 "-DOPENFOAM=1912",
-                "-DWM_DP",
-                "-DWM_LABEL_SIZE=32",
-                "-Wall",
-                "-Wextra",
-                "-Wold-style-cast",
-                "-Wnon-virtual-dtor",
-                "-Wno-unused-parameter",
-                "-Wno-invalid-offsetof",
-                "-Wno-attributes",
-                "-Wno-unknown-pragmas",
-                "-O3 ",
                 "-DNoRepository",
                 "-ftemplate-depth-100"
             ]
