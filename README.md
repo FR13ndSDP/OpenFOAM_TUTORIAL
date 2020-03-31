@@ -65,13 +65,19 @@ Checking: OFtutorial02_commandLineArgumentsAndOptions/
 
 基本场操作，包括速度、压力场的建立和求解
 
+---------
+
 #### Tutorial 5 - Basic parallel computing
 
 关于并行计算的机理与如何进行并行信息的交互
 
+---------
+
 #### Tutorial6 - Custom Classes
 
 自定义类、派生类的声明和定义，其中定义了一个继承自IOdictionary的类，用于读取myTransportProperties
+
+---------
 
 #### Tutorial 7 - Custom libraries
 
