@@ -2,7 +2,6 @@
     "C_Cpp.errorSquiggles": "Enabled",
     "files.associations": {
         "*.H": "cpp",
-        "*.C": "cpp",
-        "ostream": "cpp"
+        "*.C": "cpp"
     }
 }

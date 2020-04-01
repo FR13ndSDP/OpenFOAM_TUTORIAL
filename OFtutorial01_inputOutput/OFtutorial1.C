@@ -21,7 +21,7 @@ int main(int argc, char *argv[])
     IOobject dictIO
     (
         dictName, // 文件名，即""customProperties"
-        Path, //XXX:这里相当于 mesh.time().consant();
+        Path, // 这里相当于 mesh.time().consant();
         mesh, // objectRegistry为mesh，这指定了对象所属的类
         IOobject::MUST_READ // 指定文件为必读
     );

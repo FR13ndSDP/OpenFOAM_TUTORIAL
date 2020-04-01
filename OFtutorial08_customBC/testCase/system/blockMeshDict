@@ -27,7 +27,7 @@ expRatWall   0.05;
 
 //========================
 
-convertToMeters 1;
+scale 1;
 
 // all the vertices are in non-dimensional units
 // pipe assumed to have length and radius of 1

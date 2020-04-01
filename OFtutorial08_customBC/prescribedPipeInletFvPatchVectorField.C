@@ -8,9 +8,9 @@ Foam::prescribedPipeInletFvPatchVectorField::prescribedPipeInletFvPatchVectorFie
     const DimensionedField<vector, volMesh>& iF
 )
 :
-    // NOTE: call the default constructor to make sure everything gets initialised properly
+    // NOTE: 调用默认构造函数（基类构造函数）确保所有正常初始化
     fixedValueFvPatchVectorField(p, iF),
-    // NOTE: assign default values to the members using an initialiser list
+    // NOTE： 使用初始化列表给成员赋默认值
     approximationType_("exponential"),
     flowSpeed_(0.),
 	deltaByR_(0.),
@@ -29,6 +29,7 @@ Foam::prescribedPipeInletFvPatchVectorField::prescribedPipeInletFvPatchVectorFie
     // NOTE: this constructor reads all of the control parameters from the boundary
     // condition definition specified in the time folder U file, imported here
     // as a dictionary reference.
+    // NOTE: 这个构造函数从U文件边界条件里里读所有的控制参数，在这里作为一个字典的引用引入
     fixedValueFvPatchVectorField(p, iF),
     approximationType_("exponential"),
     flowSpeed_(0.),
@@ -40,7 +41,7 @@ Foam::prescribedPipeInletFvPatchVectorField::prescribedPipeInletFvPatchVectorFie
     // NOTE: calls the = operator to assign the value to the faces held by this BC
     fvPatchVectorField::operator=(vectorField("value", dict, p.size()));
 
-    // NOTE: looks up the necessary paramters
+    // NOTE: 寻找必要的参数
     approximationType_ = dict.lookupOrDefault<word>("approximationType","exponential");
     dict.lookup("flowSpeed") >> flowSpeed_;
 	dict.lookup("deltaByR") >> deltaByR_;
@@ -123,6 +124,7 @@ Foam::prescribedPipeInletFvPatchVectorField::prescribedPipeInletFvPatchVectorFie
 
 // NOTE: this is the key method which implements the actual maths for calculating
 // the inlet profiles.
+// NOTE: 这是计算实际进口参数的关键代码
 void Foam::prescribedPipeInletFvPatchVectorField::updateCoeffs()
 {
     if (updated())
@@ -175,6 +177,7 @@ void Foam::prescribedPipeInletFvPatchVectorField::updateCoeffs()
     this->operator==(Uin);
 
     // call the base class method to make sure all the other bits and pieces get updated
+    // 调用基类方法来确保所有其他的边角得到更新
     fixedValueFvPatchVectorField::updateCoeffs();
 }
 
