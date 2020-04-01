@@ -1,28 +1,3 @@
-/*---------------------------------------------------------------------------*\
-  =========                 |
-  \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
-   \\    /   O peration     |
-    \\  /    A nd           | Copyright (C) 2013-2014 OpenFOAM Foundation
-     \\/     M anipulation  |
--------------------------------------------------------------------------------
-License
-    This file is part of OpenFOAM.
-
-    OpenFOAM is free software: you can redistribute it and/or modify it
-    under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    OpenFOAM is distributed in the hope that it will be useful, but WITHOUT
-    ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-    FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
-    for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with OpenFOAM.  If not, see <http://www.gnu.org/licenses/>.
-
-\*---------------------------------------------------------------------------*/
-
 #include "pipeCalc.H"
 #include "addToRunTimeSelectionTable.H"
 // * * * * * * * * * * * * * * Static Data Members * * * * * * * * * * * * * //
@@ -68,9 +43,9 @@ void Foam::functionObjects::pipeCalc::writeFileHeader(const label i)
     {
         case MAIN_FILE:
         {
-            writeHeader(files(i), "Flow rate through face zone");
-            writeHeaderValue(files(i), "Face zone name", faceZoneName_);
-            writeCommented(files(i), "Time [s] | Flow rate [m3s-1]");
+            writeHeader(file(i), "Flow rate through face zone");
+            writeHeaderValue(file(i), "Face zone name", faceZoneName_);
+            writeCommented(file(i), "Time [s] | Flow rate [m3s-1]");
             file() << endl;
             break; // exit the case structure
         }
@@ -101,7 +76,7 @@ Foam::functionObjects::pipeCalc::pipeCalc
     // NOTE: Read the face zone to integrate over. Get its name from the dict, find
     // it in the mesh, and get a reference to the list of its faces.
     faceZoneName_(dict.lookup("faceZoneName")),
-    faceZoneLabel_(mesh_.faceZones().findZoneID(faceZoneName_) ),
+    faceZoneLabel_( mesh_.faceZones().findZoneID(faceZoneName_) ),
     faces_( mesh_.faceZones()[faceZoneLabel_] )
 {
     // NOTE: calls the separate .read() method to import the controls from the dict.
@@ -181,6 +156,7 @@ bool Foam::functionObjects::pipeCalc::write()
         // and the boundary values could be used instead. This is not done here
         // for simplicity.
         scalar flowRate(0.);
+
         forAll(faces_, faceI)
             // Flow rate = dot product of velocity and surface area vector; in Latex terms,
             // Q = \mathbf{U} \cdot \mathbf{\hat{n}} A
@@ -202,7 +178,7 @@ bool Foam::functionObjects::pipeCalc::write()
             logFiles::write();
 
             // Add the entry for this time step that has just been computed.
-            files(MAIN_FILE) << obr_.time().value() << tab << flowRate << endl;
+            file(MAIN_FILE) << obr_.time().value() << tab << flowRate << endl;
         }
     }
     return true;

@@ -87,26 +87,15 @@ Checking: OFtutorial02_commandLineArgumentsAndOptions/
 
 #### Tutorial 8 - Custom boundary condition
 
-Shows how a custom boundary condition may be implemented.
-It does not introduce a bespoke utility, but instead only implements a
-library. This defines an inlet condition that allows a boundary layer
-profile to be prescribed at the inlet of a pipe.
+展示如何定制一个边界条件。
 
-The BC is implemented as a class derived from the fixedValue boundary
-condition, adding several control parameters allowing the inlet profile
-to be customised. Key elements of the code are highlighted with the keyword
-NOTE:. Key methods to pay attention to are the two constructors, default
-and one constructing the BC from string, and .updateCoeffs().
+我们没有建立一个工程，而是仅仅实现了一个库来完成。它定义了一个圆管的入口条件，其中的入口边界层厚度是可以预先指定的。
 
-The test case is a straight pipe, flow through which gets solved with the
-basic simpleFoam solver. Key things to note are the definition of the
-BC in 0.org/U and the incorporation of a custom library in system/controlDict.
-The simulation is 3D RANS on a coarse mesh so it takes a few minutes on
-a low-end machine. The effect of the boundary condition may be visualised
-by plotting the x-velocity through the pipe and noting the incident boundary
-layer profile at the inlet and how it affects the solution.
+此边界条件是固定值边界（fixedValue）边界的派生类，向其中加入了几个控制量，得以定制入口参数。其中需要注意的要点用NOTE：
+指明。需要注意的实现方法有：两个构造函数，默认的和从字符串构造边界条件的，以及.updateCoeffs()函数
 
-
+测试算例是一根直管，使用基本的simpleFoam来解算，需要注意的是0.org/U中边界条件的定义和system/controlDict中自定义库的合并。
+这个模拟是粗网格上的3D RANS，所以在低配机器上可能要花费几分钟的时间。边界条件带来的的影响可以通过绘制x方向的速度来进行观察
 
 ---------
 

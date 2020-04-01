@@ -1,34 +1,11 @@
 /*---------------------------------------------------------------------------*\
-  =========                 |
-  \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
-   \\    /   O peration     |
-    \\  /    A nd           | Copyright (C) 2013 OpenFOAM Foundation
-     \\/     M anipulation  |
--------------------------------------------------------------------------------
-License
-    This file is part of OpenFOAM.
-
-    OpenFOAM is free software: you can redistribute it and/or modify it
-    under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    OpenFOAM is distributed in the hope that it will be useful, but WITHOUT
-    ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-    FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
-    for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with OpenFOAM.  If not, see <http://www.gnu.org/licenses/>.
-
-Class
+类
     Foam::pipeCalc
 
-Description
-    This function object calculates and outputs various quantities relevant
-    to flows through pipes and similar geometries.
+描述
+    这个类的函数对象计算并输出与管或相似几何中流动有关的多种量
 
-SourceFiles
+源文件
     pipeCalc.C
 
 \*---------------------------------------------------------------------------*/
@@ -51,7 +28,7 @@ namespace functionObjects
 {
 
 /*---------------------------------------------------------------------------*\
-                          Class pipeCalc Declaration
+                          类 pipeCalc 声明
 \*---------------------------------------------------------------------------*/
 
 class pipeCalc
