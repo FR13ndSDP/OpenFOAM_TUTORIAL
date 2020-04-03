@@ -6,46 +6,46 @@
 |    \\/     M anipulation  |                                                 |
 \*---------------------------------------------------------------------------*/
 
-// this file controls:
-// - initial conditions for turbulence modelling
-// - initial flow field and boundary condition values
+// 此文件控制：
+// - 初始湍流模型条件
+// - 初始流场和边界条件
 
 //==================
-// MESH SETTINGS
+// 网格设定
 
-// length of the pipe [m]
+// 管长 [m]
 Lpipe 0.68247;
-// radius of the pipe [m]
+// 管半径 [m]
 Rpipe 0.02625;
 
-// number of cells
-//	- along the pipe
+// cells数目
+//	- 沿管
 Nx 50;
-//	- in the inner part of the mesh at the pipe centreline (per radius)
+//  - 自由流层网格数（沿半径方向）
 NRinner 20;
-//	- in the boundary layer part of the mesh (per radius)
+//  - 边界层网格数（沿半径方向）
 NRouter 25;
 
-// cell size ratio between the cell at the wall and that in the free stream in the near-wall blocks
+// 壁面cell和近壁区自由流区cell大小之比
 expRatWall 0.05;
 
-// whether to create 1/4th, 1/2, or a full pipe
+// 是否创建 1/4，1/2，或者整根管
 noQuarters 1;
 
 //==================
-// FLUID PROPERTIES
+// 流体性质
 visc	1.09e-6;
 rho		998.8;
 
 //==================
-// FLOW PARAMETERS
+// 流场参数
 pressure	0;
 flowVelocity 2;
 deltaByR 0.1;
 
-// inlet values
-turbulentKE	6.0000E-2;
-turbulentOmega	4.4721E+0;
+// 入口值 k-omega SST 模型
+turbulentKE	6.0000E-2; // 湍流动能
+turbulentOmega	4.4721E+0; // 比动能耗散率
 
 
 // ************************************************************************* //

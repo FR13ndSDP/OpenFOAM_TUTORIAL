@@ -39,9 +39,11 @@ Foam::prescribedPipeInletFvPatchVectorField::prescribedPipeInletFvPatchVectorFie
 	lambda_(0.)
 {
     // NOTE: calls the = operator to assign the value to the faces held by this BC
+    // NOTE: 调用重载算符 = 将边界条件条件实现在每个face上，value是关键字 $internalField
     fvPatchVectorField::operator=(vectorField("value", dict, p.size()));
 
     // NOTE: 寻找必要的参数
+    // 带有默认值 exponential的lookup
     approximationType_ = dict.lookupOrDefault<word>("approximationType","exponential");
     dict.lookup("flowSpeed") >> flowSpeed_;
 	dict.lookup("deltaByR") >> deltaByR_;
@@ -51,6 +53,7 @@ Foam::prescribedPipeInletFvPatchVectorField::prescribedPipeInletFvPatchVectorFie
 
     // NOTE: calls the .updateCoeffs() method to calculate the inlet profile in
     // accordance with the controls which have just been read.
+    // 调用.updateCoeffs() 来计算入口参数
 	updateCoeffs();
 }
 
@@ -64,6 +67,7 @@ Foam::prescribedPipeInletFvPatchVectorField::prescribedPipeInletFvPatchVectorFie
 :
     // NOTE: this constructor, and the two subsequent ones, transfer data to the
     // instance being created from another one.
+    // NOTE: 这个和接下来的两个构造函数都是通过别的类来定义的
     fixedValueFvPatchVectorField(ptf, p, iF, mapper),
     approximationType_(ptf.approximationType_),
     flowSpeed_(ptf.flowSpeed_),
@@ -134,12 +138,14 @@ void Foam::prescribedPipeInletFvPatchVectorField::updateCoeffs()
 
 	// assign inlet velocity normal to the patch
 	// by convention, patch faces point outside of the domain
+    // 入口的法向速度赋给入口patch, 负号是因为patch法向默认指向几何外
 	vectorField Uin = (-1.)*(patch().Sf()/patch().magSf()) * flowSpeed_;
 
     // go over each face and add the BL profile for faces close to the wall
 	forAll(patch().Cf(), faceI)
 	{
         // non-dimensional distance away from the wall
+        // 距离壁面的无量纲距离
 		scalar yOverDelta ( (1.-mag(centrepoint_ - patch().Cf()[faceI])/R_)/deltaByR_ );
 
 		if (approximationType_.compare("parabolic") == 0)

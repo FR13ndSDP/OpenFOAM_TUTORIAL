@@ -3,7 +3,7 @@
 int main(int argc, char *argv[])
 {
     // ===
-    // Define the help message for this application
+    // 帮助信息
     argList::addNote(
         "Demonstrates how to handle command line options.\n"
         "\n"

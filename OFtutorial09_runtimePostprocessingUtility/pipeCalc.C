@@ -8,14 +8,15 @@ namespace functionObjects
 {
     defineTypeNameAndDebug(pipeCalc, 0);
     addToRunTimeSelectionTable(functionObject, pipeCalc, dictionary);
-}
-}
+} // End namespace functionObjects
+} // End namespace Foam
 
-// * * * * * * * * * * * * * * * * Protected members  * * * * * * * * * * * * * * //
+// * * * * * * * * * * * * * * Protected members * * * * * * * * * * * * * * //
 
 // NOTE: this returns a list of file names which match indices of the enum
 // defined in the header of this class. These names are used to create matching
 // files by the logFiles object.
+// NOTE: 返回文件名列表，这些文件名用来创建与 logFiles 对象相对应的文件
 Foam::wordList Foam::functionObjects::pipeCalc::createFileNames
 (
     const dictionary& dict
@@ -24,7 +25,7 @@ Foam::wordList Foam::functionObjects::pipeCalc::createFileNames
     DynamicList<word> names(1);
 
     // use type of the utility as specified in the dict as the top-level dir name
-    const word objectType(dict.lookup("type"));
+    const word objectType = dict.lookup("type");
 
     // Name for file(MAIN_FILE=0)
     names.append(objectType);
@@ -32,16 +33,15 @@ Foam::wordList Foam::functionObjects::pipeCalc::createFileNames
     return names;
 }
 
-// NOTE: this method first gets declared in logFiles.H, from which this
-// class is derived. This method gets called automatically when the base object's
-// write() function gets called too.
-// The purpose of the function is to add the header to the output data file.
+// NOTE: 此方法首先在 logFiles.H 中被声明， 当基类的write()函数被调用时自动调用该函数
+// 目的是在输出数据文件中加header
 void Foam::functionObjects::pipeCalc::writeFileHeader(const label i)
 {
     // Find the correct file to write to from the enum defined in the header.
+    // 通过头文件中定义的枚举类型到正确的文件来进行输出
     switch (fileID(i))
     {
-        case MAIN_FILE:
+        case MAIN_FILE: // 密码正确
         {
             writeHeader(file(i), "Flow rate through face zone");
             writeHeaderValue(file(i), "Face zone name", faceZoneName_);
@@ -58,7 +58,7 @@ void Foam::functionObjects::pipeCalc::writeFileHeader(const label i)
     }
 }
 
-// * * * * * * * * * * * * * * * * Constructors  * * * * * * * * * * * * * * //
+// * * * * * * * * * * * * * * * * 构造函数  * * * * * * * * * * * * * * * //
 Foam::functionObjects::pipeCalc::pipeCalc
 (
     const word& name,
@@ -96,12 +96,12 @@ Foam::functionObjects::pipeCalc::pipeCalc
     }
 }
 
-// * * * * * * * * * * * * * * * * Destructor  * * * * * * * * * * * * * * * //
+// * * * * * * * * * * * * * * * * 析构函数 * * * * * * * * * * * * * * * * //
 
 Foam::functionObjects::pipeCalc::~pipeCalc()
 {}
 
-// * * * * * * * * * * * * * * * Member Functions  * * * * * * * * * * * * * //
+// * * * * * * * * * * * * * * * * 成员函数 * * * * * * * * * * * * * * * * //
 
 bool Foam::functionObjects::pipeCalc::read(const dictionary& dict)
 {
@@ -118,6 +118,7 @@ bool Foam::functionObjects::pipeCalc::execute()
     {
         // This gets called before write, should put things on which other
         // function objects might depend on here (for instance field calculations)
+        // 此函数在写入结果之前被调用，本应该放入一些东西来满足其他的函数的依赖（比如场计算）
     }
     return true;
 }
@@ -138,17 +139,20 @@ bool Foam::functionObjects::pipeCalc::write()
 {
     if (active_)
     {
-        // NOTE: this is the main part of the function object and implements the
-        // actual functionality.
+        // NOTE: 这是成员函数的主要部分，在这里真正实现实际的功能
 
-        // Retrieve a reference to the velocity field
+        // 取得速度场的引用
+        // obr_ 引用区域的注册对象
         const volVectorField& U = obr_.lookupObject<volVectorField>(UName_);
 
-        // itnerpolate onto the faces
+        // 面上插值
 		surfaceVectorField Uface = fvc::interpolate(U);
+
+
 
         // Go over each face zone face and compute the flow rate normal to the
         // face zone faces.
+        // 遍历每个面区，计算流过面区法向的流量
         // This assumes none of the face zone faces are on processor boundaries.
         // If they are, a seg fault will occur as faces_[faceI] will exceed the
         // internal field dimensions. A check could be made by using:

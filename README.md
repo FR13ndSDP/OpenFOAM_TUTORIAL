@@ -94,8 +94,7 @@ Checking: OFtutorial02_commandLineArgumentsAndOptions/
 此边界条件是固定值边界（fixedValue）边界的派生类，向其中加入了几个控制量，得以定制入口参数。其中需要注意的要点用NOTE：
 指明。需要注意的实现方法有：两个构造函数，默认的和从字符串构造边界条件的，以及.updateCoeffs()函数
 
-测试算例是一根直管，使用基本的simpleFoam来解算，需要注意的是0.org/U中边界条件的定义和system/controlDict中自定义库的合并。
-这个模拟是粗网格上的3D RANS，所以在低配机器上可能要花费几分钟的时间。边界条件带来的的影响可以通过绘制x方向的速度来进行观察
+测试算例是一根直管，使用基本的simpleFoam来解算，需要注意的是`0.org/U`中边界条件的定义和`system/controlDict`中自定义库的合并。这个模拟是粗网格上的3D RANS，所以在低配机器上可能要花费几分钟的时间。边界条件带来的的影响可以通过绘制x方向的速度来进行观察
 
 ---------
 
@@ -107,6 +106,8 @@ Discusses the implementation of a runtime post-processing utility which
 computes the flow rate through a face zone defined in the mesh using the
 topoSet utility.
 
+讨论运行时后处理程序的实现，这个程序计算通过一个面区的流率，利用了topoSet程序来生面区。
+
 The utility is implemented as a runtime postprocessing object derived from
 the built-in fvMeshFunctionObject and logFiles classes. It integrates the normal
 velocity through a specified face zone at each required time step and writes the
@@ -117,6 +118,8 @@ Key elements of the code are highlighted with the keyword NOTE:. It is
 important to note that the utility gets compiled as a library, which then
 gets linked to the main solver, following the OpenFOAM runtime utility
 convention.
+
+这个程序的实现是基于一个运行时后处理对象，继承自内建的 fvMeshFunctionObject 类和 logFiles类，
 
 The test case is the same pipe as in Tutorial 8, except it uses a uniform
 inflow BC and is not run until full convergence. It is worth to note

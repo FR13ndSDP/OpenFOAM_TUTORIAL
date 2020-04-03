@@ -155,6 +155,7 @@ public:
         );
 
         //- Construct and return a clone setting internal field reference
+        //- 构造并返回一个具有内部场引用的克隆
         virtual tmp<fvPatchVectorField> clone
         (
             const DimensionedField<vector, volMesh>& iF

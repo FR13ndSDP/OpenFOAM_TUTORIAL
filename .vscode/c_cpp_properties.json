@@ -4,15 +4,17 @@
             "name": "OpenFOAM",
             "includePath": [
                 "${workspaceFolder}/**",
-                "/opt/openfoam7/src/finiteVolume/lnInclude",
-                "/opt/openfoam7/src/meshTools/lnInclude",
-                "/opt/openfoam7/src/OpenFOAM/lnInclude", 
-                "/opt/openfoam7/src/OSspecific/POSIX/lnInclude"
+                "/home/sdp/OpenFOAM/OpenFOAM-7/src/finiteVolume/lnInclude",
+                "/home/sdp/OpenFOAM/OpenFOAM-7/src/meshTools/lnInclude",
+                "/home/sdp/OpenFOAM/OpenFOAM-7/src/OpenFOAM/lnInclude", 
+                "/home/sdp/OpenFOAM/OpenFOAM-7/src/OSspecific/POSIX/lnInclude"
             ],
             "defines": [
                 "WM_DP",
                 "WM_LABEL_SIZE=32",
-                "NoRepository"
+                "NoRepository",
+                "linux64",
+                "WM_ARCH_OPTION=64"
             ],
             "compilerPath": "/usr/bin/g++",
             "cStandard": "c11",

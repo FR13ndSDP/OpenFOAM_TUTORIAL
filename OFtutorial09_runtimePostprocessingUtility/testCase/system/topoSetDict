@@ -17,41 +17,41 @@ FoamFile
 
 actions
 (
-	// create a cellSet which contains all cells up to the plane of interest
+    // 创建一个cellSet，包含了构成我感兴趣的平面的所有cell
    {
-        name    inletToPlaneCells;
-        type    cellSet;
-        action  new;
-        source  cylinderToCell;
-        sourceInfo
+        name    inletToPlaneCells; // 需要生成的集合名
+        type    cellSet; // 集合类型，pointSet,pointZoneSet,faceSet...
+        action  new; // 操作类型，new,add,delete,subset(交集)
+        source  cylinderToCell; // 操作对象，将某圆柱内所有cell作为本次action操作对象
+        sourceInfo // 操作对象信息（定义这个圆柱的几何）
         {
-            p1      (-100 0 0);
-            p2      (0.65 0 0);
+            p1      (-100 0 0); // point 1
+            p2      (0.65 0 0); // point 2
             radius  100;
         }
     }
-    // move all faces (including internal and boundaries) of the cell set to a face set
+    // 移动cellSet中所有的面（包括内部和边界）到一个faceSet
     {
         name    inletToPlaneFaces;
         type    faceSet;
         action  new;
-        source  cellToFace;
+        source  cellToFace; // 选择cellSet中所有面
         sourceInfo
         {
-        	set inletToPlaneCells;
-        	option all;
+        	set inletToPlaneCells; // cellSet
+        	option all; // 所有
         }
     }
-    // delete all faces not aligned with x (flow direction) up to 45 degrees
+    // 删除所有与x方向（流向）偏差超过45度的面
     {
         name    inletToPlaneFaces;
         type    faceSet;
-        action  delete;
+        action  delete; // 删除
         source  normalToFace;
         sourceInfo
         {
-        	normal (0 1 0);
-        	cos 0.5;
+        	normal (0 1 0); // 选择依据的面法向
+        	cos 0.5; // 允许偏差 范围[-1,1]
         }
     }
     {
@@ -87,7 +87,7 @@ actions
         	cos 0.5;
         }
     }
-    // remove the internal faces of the cell set from the face set (note the "both" option)
+    // 从faceSet中删除cellSet内部面
     {
         name    inletToPlaneFaces;
         type    faceSet;
@@ -96,10 +96,10 @@ actions
         sourceInfo
         {
         	set inletToPlaneCells;
-        	option both;
+        	option both; // 选择两个neighbour 都在cellSet中的cell（内部cell）
         }
     }
-    // remove the inlet plane faces from the face set
+    // 从faceSet删除入口平面face(x方向只剩下一层面)
     {
         name    inletToPlaneFaces;
         type    faceSet;
@@ -110,7 +110,7 @@ actions
         	name inlet;
         }
     }
-    // convert the face set to a face zone
+    // 转换faceSet到faceZone
     {
         name    planeFaceZone;
         type    faceZoneSet;

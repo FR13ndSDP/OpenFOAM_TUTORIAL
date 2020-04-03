@@ -31,9 +31,9 @@ writeControl    runTime;
 
 writeInterval   50;
 
-purgeWrite      1;
+purgeWrite      1; // 清除上一时间步计算结果
 
-writeFormat     binary;
+writeFormat     binary; // 二进制写入，精度较高
 
 writePrecision  6;
 
@@ -47,7 +47,7 @@ runTimeModifiable true;
 
 functions
 {
-// NOTE: this calls the bespoke utility and links it to the main solver
+// NOTE: 调用定制程序并链接到主求解器
 pipeCalculator
 {
     functionObjectLibs ("libpipeCalc.so");
