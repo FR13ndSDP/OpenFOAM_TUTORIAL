@@ -20,26 +20,25 @@
     \endtable
 
     边界条件应用示例：
+    /0.org/U boundaryField
     \verbatim
     inlet
 	{
-		// 预先定义一个抛物线分布入口
+		// 预定义的边界条件
 	    type        prescribedPipeInlet;
-	    // (optional, default exponential) type of profile used for approximation
+	    // 边界层近似，默认为exponential
 	    approximationType exponential;
 	    // 管半径
 	    R	$Rpipe;
 	    // 管中来流速度
 	    flowSpeed	$flowVelocity;
-	    // (optional, defaults at origin) centrepoint of the pipe used to determine the radius of each face
+	    // 中心线上参考点坐标，默认为origin
 	    centrepoint	(0 0 0);
-	    // inlet BL thickness as a function of radius
-        // 来流边界层厚度，是半径的函数
+        // 边界层厚度，距离参考点距离的函数
 	    deltaByR $deltaByR;
-	    // (optional, default 0) pressure gradient coefficient (see Polhausen profile literature for explanation)
+	    // 压力梯度系数，默认为0
 	    lambda 0.;
-	    // dummy value overwritten by the BC, used for initialisation only
-        // 假值，只用于初始化
+        // 虚假速度值，只用于初始化
 	    value		$internalField;
 	}
 	\endverbatim
@@ -99,9 +98,8 @@ private:
 
 public:
 
-    //- 返回类型信息
-    // NOTE: this gets used by the runtimeSelector. In other words, this is the
-    // name under which OpenFOAM knows this BC.
+    // NOTE: 在RTS（runtime-selection）中被调用
+    // 换句话说，这是OpenFoam识别的边界条件名
     TypeName("prescribedPipeInlet");
 
     // 构造函数
@@ -136,7 +134,6 @@ public:
             const prescribedPipeInletFvPatchVectorField&
         );
 
-        //- Construct and return a clone
         //- 构造并返回一个克隆
         virtual tmp<fvPatchVectorField> clone() const
         {
@@ -146,7 +143,6 @@ public:
             );
         }
 
-        //- Construct as copy setting internal field reference
         //- 构造一个copy，带有内部场引用
         prescribedPipeInletFvPatchVectorField
         (
@@ -154,7 +150,6 @@ public:
             const DimensionedField<vector, volMesh>&
         );
 
-        //- Construct and return a clone setting internal field reference
         //- 构造并返回一个具有内部场引用的克隆
         virtual tmp<fvPatchVectorField> clone
         (

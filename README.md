@@ -12,7 +12,7 @@ Forked from **UnnamedMoose/BasicOpenFOAMProgrammingTutorials**
 
 #### 使用方法
 
-所有的代码是在WSL Ubuntu 18.04LTS 环境下编译测试的，使用OpenFOAM-v1912。推荐你也使用相同的OpenFOAM版本，因为不同版本的OpenFOAM底层代码可能很不同，尤其是相比于openfoam.org版本。
+所有的代码是在WSL Ubuntu 18.04LTS 环境下编译测试的，使用OpenFOAM-7。推荐你也使用相同的OpenFOAM版本，因为不同版本的OpenFOAM底层代码可能很不同，尤其是相比于openfoam.com版本。
 
 每个教程都是独立的，没有依赖关系，大部分都可以通过简单地执行`wmake`进行编译，然后打开`testCase`文件夹来运行算例。运行的步骤和方法在`Allrun`文件中。在编译或运行完成后，你可以使用`Allwclean`和`Allclean`来分别清理编译输出与算例运行输出，使文档结构复原。
 
@@ -51,7 +51,7 @@ Checking: OFtutorial02_commandLineArgumentsAndOptions/
 
 #### Tutorial 1 - Input and output
 
-展示字典中的内容并将输出保存在文件中
+展示字典中的内容并将输出保存在文件中:bookmark_tabs::
 
 ---
 
@@ -75,7 +75,7 @@ Checking: OFtutorial02_commandLineArgumentsAndOptions/
 
 #### Tutorial6 - Custom Classes
 
-自定义类、派生类的声明和定义，其中定义了一个继承自IOdictionary的类，用于读取myTransportProperties
+自定义类、派生类的声明和定义，其中定义了一个继承自`IOdictionary`的类，用于读取`myTransportProperties` :bookmark_tabs::
 
 ---------
 
@@ -91,44 +91,22 @@ Checking: OFtutorial02_commandLineArgumentsAndOptions/
 
 我们没有建立一个工程，而是仅仅实现了一个库来完成。它定义了一个圆管的入口条件，其中的入口边界层厚度是可以预先指定的。
 
-此边界条件是固定值边界（fixedValue）边界的派生类，向其中加入了几个控制量，得以定制入口参数。其中需要注意的要点用NOTE：
-指明。需要注意的实现方法有：两个构造函数，默认的和从字符串构造边界条件的，以及.updateCoeffs()函数
+此边界条件是固定值边界（fixedValue）边界的派生类，向其中加入了几个控制量，得以定制入口参数。其中需要注意的要点用`NOTE：`指明。需要注意的实现方法有：两个构造函数，默认的和从字符串构造边界条件的，以及`.updateCoeffs()`函数
 
-测试算例是一根直管，使用基本的simpleFoam来解算，需要注意的是`0.org/U`中边界条件的定义和`system/controlDict`中自定义库的合并。这个模拟是粗网格上的3D RANS，所以在低配机器上可能要花费几分钟的时间。边界条件带来的的影响可以通过绘制x方向的速度来进行观察
+测试算例是一根直管，使用基本的`simpleFoam`来解算，需要注意的是`0.org/U`中边界条件的定义和`system/controlDict`中自定义库的合并。这个模拟是粗网格上的3D RANS，所以在低配机器上可能要花费几分钟的时间。边界条件带来的的影响可以通过绘制x方向的速度来进行观察
 
 ---------
 
 #### Tutorial 9 - Runtime post processing utility
 
+讨论运行时后处理程序的实现，这个程序计算通过一个面区的流率，利用了`topoSet`程序来生面区。
 
+这个程序的实现是基于一个运行时后处理对象，继承自内建的 `fvMeshFunctionObject `类和 `logFiles`类，
+它计算特定面区内速度的时间积分，并把结果写入到一个文件中。需要注意的有：1）构造函数 2)`writeFileHeader`  3）`createFileNames()`,和4）`write()`。另外，后处理程序是作为库被编译的，并被链接到求解器。
 
-Discusses the implementation of a runtime post-processing utility which
-computes the flow rate through a face zone defined in the mesh using the
-topoSet utility.
-
-讨论运行时后处理程序的实现，这个程序计算通过一个面区的流率，利用了topoSet程序来生面区。
-
-The utility is implemented as a runtime postprocessing object derived from
-the built-in fvMeshFunctionObject and logFiles classes. It integrates the normal
-velocity through a specified face zone at each required time step and writes the
-result to a file, as well as prints in on the screen. The key methods to
-pay attention to are 1) the constructor 2) writeFileHeader(), 3) createFileNames(),
-and 4) write(), which implements the actual maths behind the functionality.
-Key elements of the code are highlighted with the keyword NOTE:. It is
-important to note that the utility gets compiled as a library, which then
-gets linked to the main solver, following the OpenFOAM runtime utility
-convention.
-
-这个程序的实现是基于一个运行时后处理对象，继承自内建的 fvMeshFunctionObject 类和 logFiles类，
-
-The test case is the same pipe as in Tutorial 8, except it uses a uniform
-inflow BC and is not run until full convergence. It is worth to note
-the definition of the faceZone of interest in system/topoSet. This may be
-visualised by selecting "Include zones" in paraview and applying the "Extract
-block" filter. As the simpleFoam solver is run, the output file gets created
-by the utility in the postProcessing directory.
-
-
+测试案例和tutorial 8 一样，但是这里使用了均匀速度分布的入口边界条件，并且不完全收敛时就终止了运算。
+值得注意的是，这里面区的概念（`topoSet`生成）可以在paraview中使用filter “Extract block”来观察，
+面区内流量的信息在`postProcessing`目录下生成，可以使用gnuplot进行绘制
 
 ---------
 

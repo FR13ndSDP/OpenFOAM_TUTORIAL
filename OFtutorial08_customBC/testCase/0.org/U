@@ -25,21 +25,28 @@ boundaryField
 {
     inlet
     {
-    	// prescribes a parabolic inlet profile
+        // 预定义入口边界条件
         type       prescribedPipeInlet;
-        // (optional, default exponential) type of profile used for approximation
-        approximationType exponential;
-        // pipe radius
+
+        // （可选参数，默认为 exponential）边界层近似类型
+        approximationType parabolic;
+
+        // 管半径
         R	$Rpipe;
-        // magnitude of flow velocity into the pipe
+
+        // 来流速度
         flowSpeed	$flowVelocity;
-        // (optional, defaults at origin) centrepoint of the pipe used to determine the radius of each face
+
+        // （可选，默认为 origin）用来决定每个面径向距离的管中心点
         centrepoint	(0 0 0);
-        // inlet BL thickness as a function of radius
+
+        // 入口边界层厚度，径向距离的函数
         deltaByR $deltaByR;
-        // (optional, default 0) pressure gradient coefficient (see Polhausen profile literature for explanation)
+
+        // （可选，默认为 0 ），压力梯度系数（用于Polhausen边界层近似）
         lambda 0.;
-        // dummy value overwritten by the BC, used for initialisation only
+
+        // 假速度值，会被边界条件覆盖，只用于初始化
         value		$internalField;
     }
     outlet

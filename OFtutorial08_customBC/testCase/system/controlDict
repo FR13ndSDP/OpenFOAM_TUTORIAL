@@ -45,7 +45,7 @@ timePrecision   6;
 
 runTimeModifiable true;
 
-// include the custom inlet library
+// 包含自定义入口条件库
 libs ("libprescribedPipeInlet.so");
 
 // ************************************************************************* //

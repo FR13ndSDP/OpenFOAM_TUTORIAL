@@ -17,20 +17,19 @@ FoamFile
 //========================
 // CONTROLS
 
-// number of cells
+// cell数量
 Nx   50;
 NRinner   20;
 NRouter   25;
 
-// size ratio of cell at the wall to the free-stream one in the near-wall blocks
+// 壁面处cell和近壁区cell大小比
 expRatWall   0.05;
 
 //========================
 
 scale 1;
 
-// all the vertices are in non-dimensional units
-// pipe assumed to have length and radius of 1
+// 所有顶点都是无量纲的，管长和半径都是1
 vertices
 (
     (0.00000e+00 0.00000e+00 0.00000e+00)

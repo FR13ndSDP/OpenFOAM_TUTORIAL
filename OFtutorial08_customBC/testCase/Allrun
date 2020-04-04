@@ -15,7 +15,6 @@ mpirun -np 4 simpleFoam -parallel > log.run 2>&1
 reconstructPar -latestTime > log.reconstruct 2>&1
 
 simpleFoam -postProcess -func yPlus -latestTime > log.yPlus
-simpleFoam -postProcess -func sample -latestTime > log.sample
 
 rm -r processor*
 

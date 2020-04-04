@@ -1,6 +1,10 @@
 #!/bin/bash
 
-# read values from the dictionary
+##########################################################################
+# - 从runConditions读取参数，更新blockMesh里的参数
+# - 当runConditions被改变时，这是必要的
+
+# awk获取controlFile中关键词后的第二个域(所需要的值)，通过管道传递给sed，使用这个值替换当前值
 controlFile="system/runConditions"
 Lpipe=$(awk '/Lpipe/{print $2}' $controlFile | sed 's/;$//')
 Rpipe=$(awk '/Rpipe/{print $2}' $controlFile | sed 's/;$//')
@@ -10,20 +14,22 @@ NRouter=$(awk '/NRouter/{print $2}' $controlFile | sed 's/;$//')
 expRatWall=$(awk '/expRatWall/{print $2}' $controlFile | sed 's/;$//')
 noQuarters=$(awk '/noQuarters/{print $2}' $controlFile | sed 's/;$//')
 
-# update values in the blockMesh dictionary (optionally could also include the file in the dict
-# and use the variables directly - nice to explore different options to do the same thing though)
+# 可以在blockMesh中手动更新
+# 查找并替换
 sed -i "s/Nx.*;/Nx   $Nx;/g" system/blockMeshDict
 sed -i "s/NRinner.*;/NRinner   $NRinner;/g" system/blockMeshDict
 sed -i "s/NRouter.*;/NRouter   $NRouter;/g" system/blockMeshDict
 sed -i "s/expRatWall.*;/expRatWall   $expRatWall;/g" system/blockMeshDict
+##########################################################################
 
-# create the baseline mesh of a 1/4 of pipe with unit length and radius
+# 创建1/4管，长度和半径均为1
 blockMesh
 
-# scale to give the mesh the desired size
+# 根据管实际几何参数进行变换
 transformPoints -scale "($Lpipe $Rpipe $Rpipe)"
 
-# mirror the grid as required
+# 如果noQuarters 是1，创建1/4管，如果2，创建1/2管，如果4，创建整根管
+# 由mirrorMesh的次数决定
 sed -i "s/normalVector.*;/normalVector (0 1 0);/g" system/mirrorMeshDict
 
 if (( $noQuarters == 2 ))
@@ -34,11 +40,12 @@ fi
 if (( $noQuarters == 4 ))
 then
 	mirrorMesh -overwrite
+	# 这时候法向量方向改变，实现1/2->1的镜像
 	sed -i "s/normalVector.*;/normalVector (0 0 1);/g" system/mirrorMeshDict
 	mirrorMesh -overwrite
 fi
 
-# renumber to optimise parallel running
+# 重新编号，为并行运算优化
 renumberMesh -overwrite
 
 # ----------------------------------------------------------------- end-of-file
