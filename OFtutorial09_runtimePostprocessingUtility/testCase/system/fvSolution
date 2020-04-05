@@ -21,9 +21,9 @@ solvers
     p
     {
         solver          GAMG;
-        smoother  DICGaussSeidel;
+        smoother        DICGaussSeidel;
         
-		maxIter	50;
+		maxIter	        50;
         tolerance       1e-50;
         relTol          1e-1;
     };
@@ -51,9 +51,9 @@ solvers
     Phi
     {
         solver          GAMG;
-        smoother  DICGaussSeidel;
+        smoother        DICGaussSeidel;
         
-		maxIter	50;
+		maxIter	        50;
         tolerance       1e-50;
         relTol          1e-1;
     };

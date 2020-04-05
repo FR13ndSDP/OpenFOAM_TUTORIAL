@@ -1,0 +1,156 @@
+/*---------------------------------------------------------------------------*\
+  =========                 |
+  \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
+   \\    /   O peration     | Website:  https://openfoam.org
+    \\  /    A nd           | Version:  7
+     \\/     M anipulation  |
+\*---------------------------------------------------------------------------*/
+Build  : 7-83cd285f0e3f
+Exec   : blockMesh
+Date   : Apr 06 2020
+Time   : 01:00:54
+Host   : "LAPTOP-2O2OKFT8"
+PID    : 1274
+I/O    : uncollated
+Case   : /mnt/e/Acoding/OpenFOAM_TUTORIAL/OFtutorial09_runtimePostprocessingUtility/testCase
+nProcs : 1
+sigFpe : Enabling floating point exception trapping (FOAM_SIGFPE).
+fileModificationChecking : Monitoring run-time modified files using timeStampMaster (fileModificationSkew 10)
+allowSystemOperations : Allowing user-supplied system call operations
+
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+Create time
+
+Deleting polyMesh directory
+    "/mnt/e/Acoding/OpenFOAM_TUTORIAL/OFtutorial09_runtimePostprocessingUtility/testCase/constant/polyMesh"
+Creating block mesh from
+    "/mnt/e/Acoding/OpenFOAM_TUTORIAL/OFtutorial09_runtimePostprocessingUtility/testCase/system/blockMeshDict"
+Creating block edges
+No non-planar block faces defined
+Creating topology blocks
+Creating topology patches
+
+Creating block mesh topology
+
+Check topology
+
+	Basic statistics
+		Number of internal faces : 3
+		Number of boundary faces : 12
+		Number of defined boundary faces : 12
+		Number of undefined boundary faces : 0
+	Checking patch -> block consistency
+
+Creating block offsets
+Creating merge list .
+
+Creating polyMesh from blockMesh
+Creating patches
+Creating cells
+Creating points with scale 1
+    Block 0 cell size :
+        i : 0.02 .. 0.02
+        j : 0.04 .. 0.04 0.04 .. 0.04 0.0399599 .. 0.0399441 0.0399599 .. 0.0399441 
+        k : 0.04 .. 0.04 0.04 .. 0.04 0.0399599 .. 0.0399438 0.0399599 .. 0.0399438 
+    Block 1 cell size :
+        i : 0.02 .. 0.02
+        j : 0.0245528 .. 0.00122764 0.0245528 .. 0.00122764 0.024764 .. 0.0012382 0.024764 .. 0.0012382 
+        k : 0.0321747 .. 0.0336564 0.0321747 .. 0.0336564 0.0330394 .. 0.0339769 0.0330394 .. 0.0339769 
+    Block 2 cell size :
+        i : 0.02 .. 0.02
+        j : 0.0167666 .. 0.000838329 0.0167666 .. 0.000838329 0.0184763 .. 0.000923815 0.0184763 .. 0.000923815 
+        k : 0.0336645 .. 0.0321745 0.0336645 .. 0.0321745 0.0339841 .. 0.0330393 0.0339841 .. 0.0330393 
+
+Writing polyMesh
+----------------
+Mesh Information
+----------------
+  boundingBox: (0 0 0) (1 1 1)
+  nPoints: 74766
+  nCells: 70000
+  nFaces: 214650
+  nInternalFaces: 205350
+----------------
+Patches
+----------------
+  patch 0 (start: 205350 size: 1400) name: inlet
+  patch 1 (start: 206750 size: 1400) name: outlet
+  patch 2 (start: 208150 size: 2000) name: pipe
+  patch 3 (start: 210150 size: 2250) name: symmetryVer
+  patch 4 (start: 212400 size: 2250) name: symmetryHor
+
+End
+
+/*---------------------------------------------------------------------------*\
+  =========                 |
+  \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
+   \\    /   O peration     | Website:  https://openfoam.org
+    \\  /    A nd           | Version:  7
+     \\/     M anipulation  |
+\*---------------------------------------------------------------------------*/
+Build  : 7-83cd285f0e3f
+Exec   : transformPoints -scale (0.68247 0.02625 0.02625)
+Date   : Apr 06 2020
+Time   : 01:00:55
+Host   : "LAPTOP-2O2OKFT8"
+PID    : 1275
+I/O    : uncollated
+Case   : /mnt/e/Acoding/OpenFOAM_TUTORIAL/OFtutorial09_runtimePostprocessingUtility/testCase
+nProcs : 1
+sigFpe : Enabling floating point exception trapping (FOAM_SIGFPE).
+fileModificationChecking : Monitoring run-time modified files using timeStampMaster (fileModificationSkew 10)
+allowSystemOperations : Allowing user-supplied system call operations
+
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+Create time
+
+Scaling points by (0.68247 0.02625 0.02625)
+Writing points into directory "/mnt/e/Acoding/OpenFOAM_TUTORIAL/OFtutorial09_runtimePostprocessingUtility/testCase/constant/polyMesh"
+
+End
+
+/*---------------------------------------------------------------------------*\
+  =========                 |
+  \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
+   \\    /   O peration     | Website:  https://openfoam.org
+    \\  /    A nd           | Version:  7
+     \\/     M anipulation  |
+\*---------------------------------------------------------------------------*/
+Build  : 7-83cd285f0e3f
+Exec   : renumberMesh -overwrite
+Date   : Apr 06 2020
+Time   : 01:00:55
+Host   : "LAPTOP-2O2OKFT8"
+PID    : 1277
+I/O    : uncollated
+Case   : /mnt/e/Acoding/OpenFOAM_TUTORIAL/OFtutorial09_runtimePostprocessingUtility/testCase
+nProcs : 1
+sigFpe : Enabling floating point exception trapping (FOAM_SIGFPE).
+fileModificationChecking : Monitoring run-time modified files using timeStampMaster (fileModificationSkew 10)
+allowSystemOperations : Allowing user-supplied system call operations
+
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+Create time
+
+Create mesh for time = constant
+
+Mesh size: 70000
+Before renumbering :
+    band           : 49750
+    profile        : 1.36433e+08
+
+Using default renumberMethod.
+
+Selecting renumberMethod CuthillMcKee
+
+Reading geometric fields
+
+
+After renumbering :
+    band           : 1355
+    profile        : 6.8798e+07
+
+Writing mesh to "constant"
+
+End
+

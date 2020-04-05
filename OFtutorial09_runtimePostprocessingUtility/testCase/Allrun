@@ -2,7 +2,7 @@
 
 ./Allrun.mesh > log.mesh 2>&1
 
-# Need to create the faceZone for runtime post-processing
+# 创建面区
 topoSet > log.topoSet 2>&1
 
 cp -r 0.org 0

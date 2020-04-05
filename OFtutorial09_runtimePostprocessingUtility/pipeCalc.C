@@ -25,7 +25,7 @@ Foam::wordList Foam::functionObjects::pipeCalc::createFileNames
     DynamicList<word> names(1);
 
     // use type of the utility as specified in the dict as the top-level dir name
-    const word objectType = dict.lookup("type");
+    const word objectType = dict.lookup("type"); // pipeCalc
 
     // Name for file(MAIN_FILE=0)
     names.append(objectType);
@@ -88,10 +88,10 @@ Foam::functionObjects::pipeCalc::pipeCalc
 
     if (active_)
     {
-        // Any extra initialisation goes here, if necessary
+        // 进行另外一个初始化，如果必要的话
 
-        // NOTE: type() returns the typeName, as defined in the header file. Name
-        // is the individual identifier of this instance, as specified in the dict
+        // NOTE: type() 返回头文件中TypeName()定义的名称， name_从字典中读取
+        // Finished initialising pipeCalc: pipeCalculator
         Info << "Finished initialising " << type() << ": " << name_ << nl << endl;
     }
 }
@@ -103,6 +103,7 @@ Foam::functionObjects::pipeCalc::~pipeCalc()
 
 // * * * * * * * * * * * * * * * * 成员函数 * * * * * * * * * * * * * * * * //
 
+// - active_时更新Uname,默认U，返回true
 bool Foam::functionObjects::pipeCalc::read(const dictionary& dict)
 {
     if (active_)
@@ -111,18 +112,16 @@ bool Foam::functionObjects::pipeCalc::read(const dictionary& dict)
     }
     return true;
 }
-
+// - 暂时没有功能
 bool Foam::functionObjects::pipeCalc::execute()
 {
     if (active_)
     {
-        // This gets called before write, should put things on which other
-        // function objects might depend on here (for instance field calculations)
         // 此函数在写入结果之前被调用，本应该放入一些东西来满足其他的函数的依赖（比如场计算）
     }
     return true;
 }
-
+// - 在active_时，执行excute_，返回true
 bool Foam::functionObjects::pipeCalc::end()
 {
     if (active_)
@@ -131,10 +130,10 @@ bool Foam::functionObjects::pipeCalc::end()
     }
     return true;
 }
-
+// - 暂时没有功能
 void Foam::functionObjects::pipeCalc::timeSet()
 {}
-
+// 计算通过面区流量并写入文件
 bool Foam::functionObjects::pipeCalc::write()
 {
     if (active_)
@@ -148,27 +147,22 @@ bool Foam::functionObjects::pipeCalc::write()
         // 面上插值
 		surfaceVectorField Uface = fvc::interpolate(U);
 
-
-
-        // Go over each face zone face and compute the flow rate normal to the
-        // face zone faces.
         // 遍历每个面区，计算流过面区法向的流量
-        // This assumes none of the face zone faces are on processor boundaries.
-        // If they are, a seg fault will occur as faces_[faceI] will exceed the
-        // internal field dimensions. A check could be made by using:
+        // 假设面区中所有面都不在处理器边界，如果出现了这种情况，会出现数组越界
+        // A check could be made by using:
         // if ((faces_[faceI] > mesh_.owner().size()) || (mesh_.owner().size() == 0))
         // and the boundary values could be used instead. This is not done here
         // for simplicity.
         scalar flowRate(0.);
 
         forAll(faces_, faceI)
-            // Flow rate = dot product of velocity and surface area vector; in Latex terms,
             // Q = \mathbf{U} \cdot \mathbf{\hat{n}} A
             flowRate += Uface[faces_[faceI]] & mesh_.Sf()[faces_[faceI]];
 
         // reduce for parallel running
         reduce(flowRate, sumOp<scalar>());
 
+        // Total flow rate 0.00108663 through 1400 faces
         Info << "Total flow rate " << flowRate << " through "
              << returnReduce(faces_.size(), sumOp<label>()) << " faces" << nl << endl;
 

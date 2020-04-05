@@ -1,0 +1,72 @@
+/*---------------------------------------------------------------------------*\
+  =========                 |
+  \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
+   \\    /   O peration     | Website:  https://openfoam.org
+    \\  /    A nd           | Version:  7
+     \\/     M anipulation  |
+\*---------------------------------------------------------------------------*/
+Build  : 7-83cd285f0e3f
+Exec   : topoSet
+Date   : Apr 06 2020
+Time   : 01:00:55
+Host   : "LAPTOP-2O2OKFT8"
+PID    : 1278
+I/O    : uncollated
+Case   : /mnt/e/Acoding/OpenFOAM_TUTORIAL/OFtutorial09_runtimePostprocessingUtility/testCase
+nProcs : 1
+sigFpe : Enabling floating point exception trapping (FOAM_SIGFPE).
+fileModificationChecking : Monitoring run-time modified files using timeStampMaster (fileModificationSkew 10)
+allowSystemOperations : Allowing user-supplied system call operations
+
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+Create time
+
+Create polyMesh for time = 0
+
+Reading topoSetDict
+
+Time = 0
+    mesh not changed.
+Created cellSet inletToPlaneCells
+    Applying source cylinderToCell
+    Adding cells with centre within cylinder, with p1 = (-100 0 0), p2 = (0.65 0 0) and radius = 100
+    cellSet inletToPlaneCells now size 67200
+Created faceSet inletToPlaneFaces
+    Applying source cellToFace
+    Adding faces according to cellSet inletToPlaneCells ...
+    faceSet inletToPlaneFaces now size 206120
+Read set faceSet inletToPlaneFaces with size 206120
+    Applying source normalToFace
+    normalToFace : Normalized vector to (0 1 0)
+    Removing faces according to normal being aligned with (0 1 0) (to within 0.5) ...
+    faceSet inletToPlaneFaces now size 133832
+Read set faceSet inletToPlaneFaces with size 133832
+    Applying source normalToFace
+    normalToFace : Normalized vector to (0 -1 0)
+    Removing faces according to normal being aligned with (0 -1 0) (to within 0.5) ...
+    faceSet inletToPlaneFaces now size 124472
+Read set faceSet inletToPlaneFaces with size 124472
+    Applying source normalToFace
+    normalToFace : Normalized vector to (0 0 1)
+    Removing faces according to normal being aligned with (0 0 1) (to within 0.5) ...
+    faceSet inletToPlaneFaces now size 70760
+Read set faceSet inletToPlaneFaces with size 70760
+    Applying source normalToFace
+    normalToFace : Normalized vector to (0 0 -1)
+    Removing faces according to normal being aligned with (0 0 -1) (to within 0.5) ...
+    faceSet inletToPlaneFaces now size 68600
+Read set faceSet inletToPlaneFaces with size 68600
+    Applying source cellToFace
+    Removing faces according to cellSet inletToPlaneCells ...
+    faceSet inletToPlaneFaces now size 2800
+Read set faceSet inletToPlaneFaces with size 2800
+    Applying source patchToFace
+    Removing all faces of patch inlet ...
+    Found matching patch inlet with 1400 faces.
+    faceSet inletToPlaneFaces now size 1400
+Created faceZoneSet planeFaceZone
+    Applying source setToFaceZone
+    Adding all faces from faceSet inletToPlaneFaces ...
+    faceZoneSet planeFaceZone now size 1400
+End
+
