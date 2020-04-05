@@ -6,7 +6,7 @@
                 "${workspaceFolder}/**",
                 "/home/sdp/OpenFOAM/OpenFOAM-7/src/finiteVolume/lnInclude",
                 "/home/sdp/OpenFOAM/OpenFOAM-7/src/meshTools/lnInclude",
-                "/home/sdp/OpenFOAM/OpenFOAM-7/src/OpenFOAM/lnInclude", 
+                "/home/sdp/OpenFOAM/OpenFOAM-7/src/OpenFOAM/lnInclude",
                 "/home/sdp/OpenFOAM/OpenFOAM-7/src/OSspecific/POSIX/lnInclude"
             ],
             "defines": [

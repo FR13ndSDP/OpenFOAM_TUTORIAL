@@ -49,43 +49,43 @@ Checking: OFtutorial02_commandLineArgumentsAndOptions/
 
 ----
 
-#### Tutorial 1 - Input and output
+#### Tutorial 1 - 输入输出
 
-展示字典中的内容并将输出保存在文件中:bookmark_tabs::
+展示字典中的内容并将输出保存在文件中
 
 ---
 
-#### Tutorial 3 - Understanding the mesh
+#### Tutorial 3 - 理解网格
 
 讨论OpenFOAM是如何描述网格的并且使用代码进行网格的交互
 
 ---
 
-#### Tutorial 4 - Basic field operations
+#### Tutorial 4 - 基本场操作 Field Operation And Manipulation
 
 基本场操作，包括速度、压力场的建立和求解
 
 ---------
 
-#### Tutorial 5 - Basic parallel computing
+#### Tutorial 5 - 基础并行计算
 
 关于并行计算的机理与如何进行并行信息的交互
 
 ---------
 
-#### Tutorial6 - Custom Classes
+#### Tutorial6 - 自定义类
 
-自定义类、派生类的声明和定义，其中定义了一个继承自`IOdictionary`的类，用于读取`myTransportProperties` :bookmark_tabs::
+自定义类、派生类的声明和定义，其中定义了一个继承自`IOdictionary`的类，用于读取`myTransportProperties` 
 
 ---------
 
-#### Tutorial 7 - Custom libraries
+#### Tutorial 7 - 自定义库
 
 展示了如何自定义一个动态链接库，将tutorial4和5中的函数写在了库中
 
 ---------
 
-#### Tutorial 8 - Custom boundary condition
+#### Tutorial 8 - 自定义边界条件
 
 展示如何定制一个边界条件。
 
@@ -97,12 +97,12 @@ Checking: OFtutorial02_commandLineArgumentsAndOptions/
 
 ---------
 
-#### Tutorial 9 - Runtime post processing utility
+#### Tutorial 9 - 运行时后处理
 
 讨论运行时后处理程序的实现，这个程序计算通过一个面区的流率，利用了`topoSet`程序来生面区。
 
 这个程序的实现是基于一个运行时后处理对象，继承自内建的 `fvMeshFunctionObject `类和 `logFiles`类，
-它计算特定面区内速度的时间积分，并把结果写入到一个文件中。需要注意的有：1）构造函数 2)`writeFileHeader`  3）`createFileNames()`,和4）`write()`。另外，后处理程序是作为库被编译的，并被链接到求解器。
+它计算特定面区内速度的时间积分，并把结果写入到一个文件中。需要注意的有：1）构造函数 2) `writeFileHeader`  3）`createFileNames()`,和4）`write()`。另外，后处理程序是作为库被编译的，并被链接到求解器。
 
 测试案例和tutorial 8 一样，但是这里使用了均匀速度分布的入口边界条件，并且不完全收敛时就终止了运算。
 值得注意的是，这里面区的概念（`topoSet`生成）可以在paraview中使用filter “Extract block”来观察，
@@ -110,12 +110,9 @@ Checking: OFtutorial02_commandLineArgumentsAndOptions/
 
 ---------
 
-#### Tutorial 10 - Transport equation
+#### Tutorial 10 - 输运方程
 
-
-
-Introduces the concepts behind solving a simple scalar transport equation.
-
+介绍求解一个简单的标量输运方程背后的原理
 
 
 The solver sets up the transport problem by importing a fixed velocity field
@@ -156,40 +153,3 @@ Recommended reading:
 
 
 ![Alt text](OFtutorial10_transportEquation/testCase/2DconvectionDiffusion.png?raw=true "Tutorial 10 - result of 2D convection-diffusion with inlets at left and bottom edges")
-
-
-
----------
-
-#### Tutorial 11 - Modifying the mesh
-
-
-
-Demonstrates how to use points to generate different cell types, patches,
-and export the finished grid to an OpenFOAM case.
-
-Also recommended to view the 'meshPoints.pdf' or Gmsh files to get a better
-idea of how the mesh is actually constructed from points.
-
-![Alt text](OFtutorial11_modifyingTheMesh/testCase/cellTypes.png?raw=true "Tutorial 11 - different cell topologies")
-
-
-
----------
-
-#### Tutorial 12 - Adding a custom momentum source
-
-
-
-Shows a modified version of the actuatorDisk momentum source which does not use
-a cellSet in order to mark cells for applying the source. Instead, it identifies
-the cells inside of the constructor which allows easier adjustment of the disk
-parameters and could be developed further to include a dynamic variant. Main
-part of the implementation is located in "customActuationDiskSourceTemplates.C"
-and the cell selection algorithm is implemented in the class constructor inside
-"customActuationDiskSource.C". Key takeaways from the tutorial are how a fvOption
-object is structured and how it may be modified to suit ones needs. It is a bit
-more applied than the previous ones but hopefully will be useful to at least
-a few people.
-
-![Alt text](OFtutorial12_momentumSource/testCase/Umagnitude.png?raw=true "Tutorial 12 - velocity affected by a momentum source")
