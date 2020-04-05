@@ -14,7 +14,7 @@ FoamFile
 }
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-// Make this a dimensionless scalar
+// 无量纲标量
 dimensions      [0 0 0 0 0 0 0];
 
 internalField   uniform 0;

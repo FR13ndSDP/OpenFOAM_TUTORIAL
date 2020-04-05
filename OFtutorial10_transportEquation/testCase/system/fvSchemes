@@ -23,14 +23,14 @@ ddtSchemes
 gradSchemes
 {
     default none;
-    // Gradient of the scalar variable, \beta
+    // \beta 的梯度格式
     grad(beta) Gauss linear;
 }
 
 divSchemes
 {
     default none;
-	// Convective term discretisation for the scalar variable
+    // 对流项差分格式
 	// NOTE: convection of scalars in OpenFOAM is expressed using the flux field rather than cell-centred velocity
 	div(phi,beta) bounded Gauss upwind;
 }
@@ -38,14 +38,14 @@ divSchemes
 laplacianSchemes
 {
     default none;
-    // Laplacian scheme to compute the diffusive term, \gamma \nabla^2 \beta, in the scalar transport equation
+    // 拉普拉斯格式，用来计算扩散项 \gamma \nabla^2 \beta
     laplacian(gamma,beta) Gauss linear corrected;
 }
 
 interpolationSchemes
 {
     default none;
-    // interpolation scheme for U for computing the flux, phi
+    // U的插值格式，用来计算通量和phi
     interpolate(U) linear;
 }
 

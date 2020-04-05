@@ -87,7 +87,7 @@ actions
         	cos 0.5;
         }
     }
-    // 从faceSet中删除cellSet内部面
+    // 从faceSet中删除cellSet内部面，保留了cellSet端面
     {
         name    inletToPlaneFaces;
         type    faceSet;
@@ -99,7 +99,8 @@ actions
         	option both; // 选择两个neighbour 都在cellSet中的cell（内部cell）
         }
     }
-    // 从faceSet删除入口平面face(x方向只剩下一层面)
+    // 现在只剩下入口平面和一个cellSet端面
+    // 从faceSet删除入口平面face
     {
         name    inletToPlaneFaces;
         type    faceSet;

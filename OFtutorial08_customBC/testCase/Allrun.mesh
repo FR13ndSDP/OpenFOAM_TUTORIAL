@@ -34,7 +34,7 @@ sed -i "s/normalVector.*;/normalVector (0 1 0);/g" system/mirrorMeshDict
 
 if (( $noQuarters == 2 ))
 then
-	mirrorMesh -overwrite
+	mirrorMesh -overwrite // overwrite将使原来的symmetryPlane变成内部面
 fi
 
 if (( $noQuarters == 4 ))
