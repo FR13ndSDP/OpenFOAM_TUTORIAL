@@ -12,7 +12,7 @@ Forked from **UnnamedMoose/BasicOpenFOAMProgrammingTutorials**
 
 #### 使用方法
 
-所有的代码是在WSL Ubuntu 18.04LTS 环境下编译测试的，使用OpenFOAM-7。推荐你也使用相同的OpenFOAM版本，因为不同版本的OpenFOAM底层代码可能很不同，尤其是相比于openfoam.com版本。
+所有的代码是在WSL Ubuntu 18.04LTS :fa-windows:  环境下编译测试的，使用OpenFOAM-7。推荐你也使用相同的OpenFOAM版本，因为不同版本的OpenFOAM底层代码可能很不同，尤其是相比于openfoam.com版本。
 
 每个教程都是独立的，没有依赖关系，大部分都可以通过简单地执行`wmake`进行编译，然后打开`testCase`文件夹来运行算例。运行的步骤和方法在`Allrun`文件中。在编译或运行完成后，你可以使用`Allwclean`和`Allclean`来分别清理编译输出与算例运行输出，使文档结构复原。
 
@@ -102,7 +102,13 @@ Checking: OFtutorial02_commandLineArgumentsAndOptions/
 讨论运行时后处理程序的实现，这个程序计算通过一个面区的流率，利用了`topoSet`程序来生面区。
 
 这个程序的实现是基于一个运行时后处理对象，继承自内建的 `fvMeshFunctionObject `类和 `logFiles`类，
-它计算特定面区内速度的时间积分，并把结果写入到一个文件中。需要注意的有：1）构造函数 2) `writeFileHeader`  3）`createFileNames()`,和4）`write()`。另外，后处理程序是作为库被编译的，并被链接到求解器。
+它计算特定面区内速度的时间积分，并把结果写入到一个文件中。需要注意的有：
+- 构造函数 
+- `writeFileHeader`  
+- `createFileNames()`
+- `write()`
+
+另外，后处理程序是作为库被编译的，并被链接到求解器。
 
 测试案例和tutorial 8 一样，但是这里使用了均匀速度分布的入口边界条件，并且不完全收敛时就终止了运算。
 值得注意的是，这里面区的概念（`topoSet`生成）可以在paraview中使用filter “Extract block”来观察，
@@ -114,25 +120,16 @@ Checking: OFtutorial02_commandLineArgumentsAndOptions/
 
 介绍求解一个简单的标量输运方程背后的原理
 
+对输运问题的描述：又叫做对流-扩散方程，这里建立的求解器忽略了源项，并且求解的是稳态解。$\beta$在固定的速度场中进行扩散，拥有固定扩散率
+$\gamma$，这个求解器和内置求解器`scalarTransportFoam`类似，不过这里求解的是稳态问题。需要注意的关键点有:
+- 标量输运方程背后的语法
+- OpenFOAM如何将这些语法转变成特定的操作，并和`fvSchemes`和`fvSolution`里的条目联系起来的
+- 包含`0/beta`中定义的边界条件
+- 方程的量纲和OpenFOAM是如何定义它们的
 
-The solver sets up the transport problem by importing a fixed velocity field
-from the last time step and solving the transport of a scalar, beta, in the
-presence of the velocity, beta being also subject to diffusion characterised
-by a fixed proportionality constant, gamma. The solver is conceptually similar
-to the built-in scalarTransportFoam, except it solves a steady-state problem.
-Key things to note are 1) the syntax behind the scalar transport equation
-2) how OpenFOAM translates the syntax into specific operations and associates
-them with entries in system/fvSolution and system/fvSchemes dictionaries
-3) inclusion of the boundary condition definitions in 0/beta into the equation
-4) units of the equations being solved and how OpenFOAM handles them.
+算例是一个简单的二维方形域，底部和左边是固定值边界，输运在这个域内发生，速度方向是沿着左下到右上的对角线的。为了看到$\beta$的输运过程，
 
-The test case is a simple 2D square domain with fixed scalar inlets at the bottom
-and the left-hand side. Transport takes place in the presence of a velocity
-field convecting away from the beta inlets. Once the case is run, it is best
-to visualise the initial conditions in the "beta" field and the solution to the
-transport equation saved as the "result" field.
-
-Recommended reading:
+推荐阅读:
 
 \- Wikipedia is always a good start: 
 
