@@ -30,6 +30,7 @@ class pipeCalc
 {
 
 private:
+    // 被调用时的名称
     word name_;
     // 后处理开关状态
     bool active_;
@@ -59,7 +60,9 @@ protected:
 
 public:
     // 真正被添加到RTS中的名字
-    TypeName("pipeCalc")
+    // controlDict中调用使用的名称
+    // 也是postProcesing中文件夹的名称
+    TypeName("pipeCalcu")
 
     // 构造函数
     pipeCalc
@@ -72,8 +75,6 @@ public:
     virtual ~pipeCalc();
 // === 成员函数 ===
     virtual const word& name() const { return name_; }
-
-    virtual bool read(const dictionary&);
 
     virtual bool execute();
 

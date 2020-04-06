@@ -12,11 +12,9 @@ namespace functionObjects
 } // End namespace Foam
 
 // * * * * * * * * * * * * * * Protected members * * * * * * * * * * * * * * //
+//  === 向log.run中写内容需要的函数 ===
 
-// NOTE: this returns a list of file names which match indices of the enum
-// defined in the header of this class. These names are used to create matching
-// files by the logFiles object.
-// NOTE: 返回文件名列表，这些文件名用来创建与 logFiles 对象相对应的文件
+// NOTE: 这个函数从controlDict读取type，最终被logFiles写入到log.run中
 Foam::wordList Foam::functionObjects::pipeCalc::createFileNames
 (
     const dictionary& dict
@@ -24,30 +22,27 @@ Foam::wordList Foam::functionObjects::pipeCalc::createFileNames
 {
     DynamicList<word> names(1);
 
-    // use type of the utility as specified in the dict as the top-level dir name
     const word objectType = dict.lookup("type"); // pipeCalc
 
-    // Name for file(MAIN_FILE=0)
     names.append(objectType);
 
     return names;
 }
 
 // NOTE: 此方法首先在 logFiles.H 中被声明， 当基类的write()函数被调用时自动调用该函数
-// 目的是在输出数据文件中加header
+// 目的是在输出数据文件（/postProcessing/runTime/*.dat）中加header
 void Foam::functionObjects::pipeCalc::writeFileHeader(const label i)
 {
-    // Find the correct file to write to from the enum defined in the header.
     // 通过头文件中定义的枚举类型到正确的文件来进行输出
     switch (fileID(i))
     {
-        case MAIN_FILE: // 密码正确
+        case MAIN_FILE: // /postProcessing/0
         {
-            writeHeader(file(i), "Flow rate through face zone");
-            writeHeaderValue(file(i), "Face zone name", faceZoneName_);
+            writeHeader(file(i), "通过面区的流率");
+            writeHeaderValue(file(i), "面区名", faceZoneName_);
             writeCommented(file(i), "Time [s] | Flow rate [m3s-1]");
             file() << endl;
-            break; // exit the case structure
+            break; // 跳出switch结构
         }
         default:
         {
@@ -59,6 +54,7 @@ void Foam::functionObjects::pipeCalc::writeFileHeader(const label i)
 }
 
 // * * * * * * * * * * * * * * * * 构造函数  * * * * * * * * * * * * * * * //
+
 Foam::functionObjects::pipeCalc::pipeCalc
 (
     const word& name,
@@ -66,24 +62,19 @@ Foam::functionObjects::pipeCalc::pipeCalc
     const dictionary& dict
 )
 :
-    // NOTE: call the base class constructor
+    // NOTE: 调用基类构造函数
     fvMeshFunctionObject(name, runTime, dict),
     logFiles(obr_, name),
 
     name_(name),
     active_(true),
     UName_("U"),
-    // NOTE: Read the face zone to integrate over. Get its name from the dict, find
-    // it in the mesh, and get a reference to the list of its faces.
+    // NOTE: 读取到面区中每个面的下标
     faceZoneName_(dict.lookup("faceZoneName")),
     faceZoneLabel_( mesh_.faceZones().findZoneID(faceZoneName_) ),
     faces_( mesh_.faceZones()[faceZoneLabel_] )
 {
-    // NOTE: calls the separate .read() method to import the controls from the dict.
-    // dict reference is passed automatically by the OpenFOAM runtime object manager.
-    read(dict);
-
-    // built-in logFiles method for creating file streams.
+    // logFiles方法创建输出流
     resetNames(createFileNames(dict));
 
     if (active_)
@@ -91,7 +82,7 @@ Foam::functionObjects::pipeCalc::pipeCalc
         // 进行另外一个初始化，如果必要的话
 
         // NOTE: type() 返回头文件中TypeName()定义的名称， name_从字典中读取
-        // Finished initialising pipeCalc: pipeCalculator
+        // Finished initialising pipeCalcu: pipeCalculator
         Info << "Finished initialising " << type() << ": " << name_ << nl << endl;
     }
 }
@@ -103,16 +94,6 @@ Foam::functionObjects::pipeCalc::~pipeCalc()
 
 // * * * * * * * * * * * * * * * * 成员函数 * * * * * * * * * * * * * * * * //
 
-// - active_时更新Uname,默认U，返回true
-bool Foam::functionObjects::pipeCalc::read(const dictionary& dict)
-{
-    if (active_)
-    {
-        UName_ = dict.lookupOrDefault<word>("UName", "U");
-    }
-    return true;
-}
-// - 暂时没有功能
 bool Foam::functionObjects::pipeCalc::execute()
 {
     if (active_)
@@ -121,7 +102,7 @@ bool Foam::functionObjects::pipeCalc::execute()
     }
     return true;
 }
-// - 在active_时，执行excute_，返回true
+
 bool Foam::functionObjects::pipeCalc::end()
 {
     if (active_)
@@ -130,9 +111,10 @@ bool Foam::functionObjects::pipeCalc::end()
     }
     return true;
 }
-// - 暂时没有功能
+
 void Foam::functionObjects::pipeCalc::timeSet()
 {}
+
 // 计算通过面区流量并写入文件
 bool Foam::functionObjects::pipeCalc::write()
 {
@@ -166,16 +148,14 @@ bool Foam::functionObjects::pipeCalc::write()
         Info << "Total flow rate " << flowRate << " through "
              << returnReduce(faces_.size(), sumOp<label>()) << " faces" << nl << endl;
 
-        // Output to file - only execute on the master thread to avoid the file
-        // getting written into from a few processors at the same time
+        // 输出到文件 - 仅在主进程输出以避免文件同时被多个核心写入
         if (Pstream::master())
         {
-            // Call the base class method which checks if the output file exists
-            // and creates it, if necessary. That also calls the .writeFileHeader()
-            // method of the derived class.
+            // 调用基类的函数，将会检查log文件是否存在并创建它。同时调用派生类中的
+            // .writeFileHeader()
             logFiles::write();
 
-            // Add the entry for this time step that has just been computed.
+            // 将此条目添加到后处理文件中
             file(MAIN_FILE) << obr_.time().value() << tab << flowRate << endl;
         }
     }
