@@ -150,4 +150,12 @@ $\gamma$，这个求解器和内置求解器`scalarTransportFoam`类似，不过
 <img src="OFtutorial10_transportEquation/testCase/T=0.2.png?raw=true" alt="Alt text" title="Tutorial 10 - result of 2D convection-diffusion with inlets at left and bottom edges" style="zoom:50%;" />
 <img src="OFtutorial10_transportEquation/testCase/T=1.0.png?raw=true" alt="Alt text" title="Tutorial 10 - result of 2D convection-diffusion with inlets at left and bottom edges" style="zoom:50%;" />
 
+----
 
+#### Tutorial 11 - 搭建网格
+
+展示如何生成点云、面、patch和不同的cell类型，并最终搭建出网格组合体。可以利用Matlab和`meshPoints.geo`画出点云，理解网格是如何一步步构建的。
+
+![](OFtutorial11_modifyingTheMesh\geometric.png)
+
+![](OFtutorial11_modifyingTheMesh\testCase\mesh.png)
