@@ -157,4 +157,4 @@ $\gamma$，这个求解器和内置求解器`scalarTransportFoam`类似，不过
 展示如何生成点云、面、patch和不同的cell类型，并最终搭建出网格组合体。可以利用Matlab和`meshPoints.geo`画出点云，理解网格是如何一步步构建的。
 
 
-<img src="OFtutorial11_modifyingTheMesh\geometric.png?raw=true" alt="Alt text" title="Tutorial 11 - point clouds" style="zoom: 65%;" /><img src="OFtutorial11_modifyingTheMesh\testCase\mesh.png?raw=true" alt="Alt text" title="Tutorial 11 - geometric" style="zoom:33%;" />
+<img src="OFtutorial11_modifyingTheMesh/geometric.png?raw=true" alt="Alt text" title="Tutorial 11 - point clouds" style="zoom: 65%;" /><img src="OFtutorial11_modifyingTheMesh/testCase/mesh.png?raw=true" alt="Alt text" title="Tutorial 11 - geometric" style="zoom:33%;" />
