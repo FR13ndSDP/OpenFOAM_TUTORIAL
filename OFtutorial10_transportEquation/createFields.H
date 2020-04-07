@@ -1,3 +1,7 @@
+/**
+ * @描述
+ *     定义输入输出对象
+ */
 Info << "读取beta" << nl << endl;
 volScalarField beta
 (

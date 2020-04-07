@@ -147,6 +147,7 @@ $\gamma$，这个求解器和内置求解器`scalarTransportFoam`类似，不过
 
   https://engineering.purdue.edu/~scalo/menu/teaching/me608/ME608_Notes_Murthy.pdf
 
+<img src="OFtutorial10_transportEquation/testCase/T=0.2.png?raw=true" alt="Alt text" title="Tutorial 10 - result of 2D convection-diffusion with inlets at left and bottom edges" style="zoom:50%;" />
+<img src="OFtutorial10_transportEquation/testCase/T=1.0.png?raw=true" alt="Alt text" title="Tutorial 10 - result of 2D convection-diffusion with inlets at left and bottom edges" style="zoom:50%;" />
 
 
-![Alt text](OFtutorial10_transportEquation/testCase/2DconvectionDiffusion.png?raw=true "Tutorial 10 - result of 2D convection-diffusion with inlets at left and bottom edges")

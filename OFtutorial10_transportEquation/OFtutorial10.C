@@ -1,5 +1,5 @@
 #include "fvCFD.H"
-
+#include "simpleControl.H"
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
 int main(int argc, char* argv[])
@@ -7,6 +7,8 @@ int main(int argc, char* argv[])
     #include "setRootCase.H"
     #include "createTime.H"
     #include "createMesh.H"
+
+    simpleControl simple(mesh);
 
     #include "createFields.H"
 
@@ -23,12 +25,18 @@ int main(int argc, char* argv[])
         ),
         fvc::interpolate(U) & mesh.Sf() // m/s * m^2 == m^3/s 
     );
-
-    solve
-    (
-        fvm::div(phi, beta) - fvm::laplacian(gamma, beta)
-    );
-
+    // 忽略源项
+    while(simple.loop(runTime))
+    {
+        Info << "Time=" << runTime.timeName() << nl << endl;
+        solve
+        (
+            fvm::ddt(beta)+fvm::div(phi, beta) == fvm::laplacian(gamma, beta)
+        );
+        runTime.write();
+    }
+    // 当只需要稳态解时，去掉simple循环，将result以下面的方法输出
+    /*
     volScalarField result
     (
         IOobject
@@ -42,6 +50,7 @@ int main(int argc, char* argv[])
         beta
     );
     result.write();
+    */
 
     Info << "end" << nl << endl;
     return 0;
