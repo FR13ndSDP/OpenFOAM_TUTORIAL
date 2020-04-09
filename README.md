@@ -8,7 +8,7 @@
 
 Introduces basic C++ concepts to beginner users of the OpenFOAM open-source CFD libraries.
 
-Forked from **UnnamedMoose/BasicOpenFOAMProgrammingTutorials** 
+Forked from **UnnamedMoose/BasicOpenFOAMProgrammingTutorials**  :octocat: 
 
 #### 使用方法
 
@@ -158,3 +158,7 @@ $\gamma$，这个求解器和内置求解器`scalarTransportFoam`类似，不过
 
 
 <img src="OFtutorial11_modifyingTheMesh/geometric.png?raw=true" alt="Alt text" title="Tutorial 11 - point clouds" style="zoom: 65%;" /><img src="OFtutorial11_modifyingTheMesh/testCase/mesh.png?raw=true" alt="Alt text" title="Tutorial 11 - geometric" style="zoom:33%;" />
+
+----
+
+#### Tutorial 12 - 自定义源项
