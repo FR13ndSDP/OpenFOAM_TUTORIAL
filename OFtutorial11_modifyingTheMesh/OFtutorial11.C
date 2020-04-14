@@ -223,7 +223,7 @@ int main(int argc, char* argv[])
             runTime.constant(),
             runTime
         ),
-        clone(points),
+        pointField(points),
         cells,
         patchFaces,
         boundaryPatchNames,
