@@ -1,4 +1,4 @@
 #!/bin/bash
 
 blockMesh > log.blockMesh
-simpleFoam
+simpleFoam > log.run

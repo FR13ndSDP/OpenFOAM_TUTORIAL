@@ -64,6 +64,7 @@ void Foam::fv::customSource::checkData() const
            << "disk direction vector is approximately zero"
            << exit(FatalIOError);
     }
+    //NOTE: 这里用法不太清楚
     if (returnReduce(upstreamCellId_, maxOp<label>()) == -1)
     {
         FatalErrorInFunction
@@ -86,7 +87,7 @@ Foam::fv::customSource::customSource
     option(name, modelType, dict, mesh),
     // read control parameters from dictionary
     diskDir_(coeffs_.lookup("diskDir")),
-diskCenter_(coeffs_.lookup("diskCentre")),
+    diskCenter_(coeffs_.lookup("diskCentre")),
     diameter_(readScalar(coeffs_.lookup("D"))),
     t_(readScalar(coeffs_.lookup("thickness"))),
     Cp_(readScalar(coeffs_.lookup("Cp"))),
